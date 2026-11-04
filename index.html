@@ -122,9 +122,10 @@ render(); restart();
 <p class="note">Preview built the same way the store was conceptualized: a working preview first, nothing live until reviewed. thecitizenmovement.com does not resolve yet, so this preview is not the live site.</p>
 </div></div>
 <script>
-const counties={"California":["Los Angeles","San Diego","Orange","Riverside","San Bernardino","Sacramento","Alameda","Shasta","Tehama","Fresno"],"Florida":["Miami-Dade","Broward","Palm Beach","Orange","Hillsborough","Duval"],"Texas":["Harris","Dallas","Tarrant","Bexar","Travis"],"New York":["New York","Kings","Queens","Bronx","Erie"]};
+let counties={"California":["Los Angeles","San Diego","Orange","Riverside","San Bernardino","Sacramento","Alameda","Shasta","Tehama","Fresno"],"Florida":["Miami-Dade","Broward","Palm Beach","Orange","Hillsborough","Duval"],"Texas":["Harris","Dallas","Tarrant","Bexar","Travis"],"New York":["New York","Kings","Queens","Bronx","Erie"]};
+fetch('counties.json').then(r=>r.json()).then(d=>{ counties=d; if(ss.value) ss.onchange(); }).catch(()=>{});
 const states=["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming","District of Columbia"];
 const ss=document.getElementById('state'), cs=document.getElementById('county');
 states.forEach(s=>{let o=document.createElement('option');o.textContent=s;ss.appendChild(o)});
-ss.onchange=()=>{cs.innerHTML='';let list=counties[ss.value]||[];if(!list.length){let o=document.createElement('option');o.textContent='County list for this state loads in the live version';cs.appendChild(o);return}list.forEach(c=>{let o=document.createElement('option');o.textContent=c;cs.appendChild(o)})};
+ss.onchange=()=>{cs.innerHTML='';let list=counties[ss.value]||[];if(!list.length){let o=document.createElement('option');o.textContent='No counties listed for this state';cs.appendChild(o);return}list.forEach(c=>{let o=document.createElement('option');o.textContent=c;cs.appendChild(o)})};
 </script></body></html>
