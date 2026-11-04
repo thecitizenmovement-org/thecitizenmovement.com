@@ -43,7 +43,7 @@
 let slideCur=0; const slides=document.querySelectorAll('.slide'); const dotsEl=document.getElementById('dots');
 slides.forEach((_,i)=>{let b=document.createElement('button'); b.onclick=()=>show(i); dotsEl.appendChild(b);});
 function show(i){slideCur=(i+slides.length)%slides.length; slides.forEach((s,j)=>s.classList.toggle('on',j===slideCur)); [...dotsEl.children].forEach((d,j)=>d.classList.toggle('on',j===slideCur));}
-let autoTimer=setInterval(()=>go(1),5000); function go(d){show(slideCur+d); clearInterval(autoTimer); autoTimer=setInterval(()=>go(1),5000);} show(0);
+setInterval(()=>go(1),5000); function go(d){show(slideCur+d);} show(0);
 </script>
 <script>
 const tracks=[
@@ -87,7 +87,7 @@ btn.onclick=()=>{
 .fixed-slide.on{display:flex}
 .slide h3{color:#e8ebee;margin:8px 0 2px;font-size:18px}
 .slide p{color:#b8c6d3;margin:2px 0;font-size:13px}
-.arrow{position:absolute;top:50%;transform:translateY(-50%);background:transparent;border:none;color:rgba(232,235,238,.55);font-size:22px;font-weight:200;padding:2px 6px;cursor:pointer;line-height:1}
+.arrow{position:absolute;top:50%;transform:translateY(-50%);background:transparent;border:none;color:rgba(255,255,255,.85);font-size:26px;font-weight:400;text-shadow:0 0 6px rgba(0,0,0,.8);padding:2px 6px;cursor:pointer;line-height:1}
 .arrow:hover{color:#fff}
 .arrow.prev{left:4px}.arrow.next{right:4px}
 .dots{text-align:center;padding:6px;background:#050d18}
