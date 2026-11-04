@@ -16,6 +16,34 @@
 <div class="rocker"><svg viewBox="0 0 900 110"><defs><path id="arch" d="M 40,95 Q 450,-60 860,95"/></defs>
 <text><textPath href="#arch" startOffset="50%" text-anchor="middle">thecitizenmovement.com</textPath></text></svg></div></div>
 <nav class="tabs"><a class="active" href="index.html">Home</a><a href="board.html">Non-Compliance Board</a><a href="notice-of-intent.html">Notice of Intent</a></nav>
+<div style="text-align:center;padding:10px;background:#2c3a46">
+<button id="playBtn" style="background:#e8ebee;color:#2c3a46;border:none;border-radius:20px;padding:10px 22px;font-size:16px;cursor:pointer">▶ Play header music</button>
+<span id="nowPlaying" style="color:#e8ebee;margin-left:10px;font-size:14px"></span>
+<audio id="a1" preload="none"></audio><audio id="a2" preload="none"></audio>
+</div>
+<script>
+const tracks=[
+ {name:"Ethereal Nocturnal Pathways", src:"https://tunes.stocktune.com/public/2/5/2/2525ed68-5577-4f3b-b26a-18c631e797b2/ethereal-nocturnal-pathways-stocktune.mp3"},
+ {name:"Quiet Reflections Hip Hop", src:"https://tunes.stocktune.com/public/2/0/b/20b055ac-94d5-4272-92d9-f1dd03bb8a61/quiet-reflections-hip-hop-stocktune.mp3"},
+ {name:"Echoes in the Dark", src:"https://tunes.stocktune.com/public/b/3/d/b3d7566c-727e-4173-b905-cd0c12771d74/echoes-in-the-dark-stocktune.mp3"}
+];
+let ti=0, cur=document.getElementById('a1'), nxt=document.getElementById('a2'), fading=false;
+const btn=document.getElementById('playBtn'), np=document.getElementById('nowPlaying');
+function load(a,t){a.src=t.src; a.volume=0;}
+function fadeIn(a){let v=0; const iv=setInterval(()=>{v+=0.05; a.volume=Math.min(1,v); if(v>=1) clearInterval(iv);},250);}
+function crossfade(){
+  if(fading) return; fading=true;
+  const nextTrack=tracks[(ti+1)%tracks.length];
+  load(nxt,nextTrack); nxt.play().catch(()=>{}); fadeIn(nxt);
+  let v=1; const iv=setInterval(()=>{v-=0.05; cur.volume=Math.max(0,v); if(v<=0){clearInterval(iv); cur.pause(); const tmp=cur; cur=nxt; nxt=tmp; ti=(ti+1)%tracks.length; np.textContent="Now playing: "+tracks[ti].name; fading=false;}},250);
+}
+btn.onclick=()=>{
+  if(cur.paused && !cur.src){ load(cur,tracks[0]); cur.play().catch(()=>{}); fadeIn(cur); np.textContent="Now playing: "+tracks[0].name; btn.textContent="⏸ Pause header music"; cur.ontimeupdate=()=>{ if(cur.duration && cur.duration-cur.currentTime<6) crossfade(); }; }
+  else if(cur.paused){ cur.play(); btn.textContent="⏸ Pause header music"; }
+  else { cur.pause(); btn.textContent="▶ Play header music"; }
+};
+</script>
+
 <div class="card"><h2>The Citizen Movement</h2>
 <p>Citizens report. The founder filters. A mark is an investigative alert — a place for the investigations team and auditors to look. It is not a finding and not a court conclusion.</p>
 <p><a href="board.html">Go to the County &amp; State Non-Compliance Board →</a></p>
