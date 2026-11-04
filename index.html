@@ -70,7 +70,12 @@ render(); restart();
 <p><strong>No mark is automatic.</strong> Citizens report, the founder filters. An unapproved report does not go up. A mark is an investigative alert — a place for the investigations team and auditors to look, research, and investigate. It is <strong>not</strong> a finding and not a court conclusion.</p>
 <div class="empty">No county or state is marked on this preview. A blank state means no reviewed report has been posted yet — not that an office is compliant.</div>
 
-<div class="card"><h2>Request a county be put on the map</h2>
+<div class="card"><div class="card"><h2>What do you want to do?</h2>
+<label><input type="radio" name="mode" value="report" checked> Report a county</label> &nbsp;
+<label><input type="radio" name="mode" value="check"> Check a county</label>
+<p id="modeNote" style="color:#2c3a46">Reporting is members-only — a member submission gives the movement an email contact point to follow up for more data, evidence, or proof.</p>
+</div>
+<h2>Request a county be put on the map</h2>
 <p style="color:#2c3a46">Submitting a county complaint is <strong>members-only</strong>. A member submission gives the movement an email contact point to follow up for more data, evidence, or proof. Send copies, never originals.</p>
 <label for="state">State</label>
 <select id="state"><option value="">Choose a state…</option></select>
@@ -104,6 +109,10 @@ render(); restart();
 </div>
 
 
+<div class="card" id="checkPanel" style="display:none"><h2>County check</h2>
+<p id="checkResult" style="color:#2c3a46">Pick a state and county above, then tap Check.</p>
+<p style="color:#2c3a46"><strong>Case files for this county:</strong> <span id="checkFiles">None posted yet.</span></p>
+</div>
 <div class="card"><h2>Pin color code</h2>
 <p style="color:#2c3a46">The movement is nonpartisan — no party colors, no party geography on this map. Dots are locators, and they go on and off.</p>
 <ul style="color:#2c3a46">
@@ -128,4 +137,10 @@ const states=["Alabama","Alaska","Arizona","Arkansas","California","Colorado","C
 const ss=document.getElementById('state'), cs=document.getElementById('county');
 states.forEach(s=>{let o=document.createElement('option');o.textContent=s;ss.appendChild(o)});
 ss.onchange=()=>{cs.innerHTML='';let list=counties[ss.value]||[];if(!list.length){let o=document.createElement('option');o.textContent='No counties listed for this state';cs.appendChild(o);return}list.forEach(c=>{let o=document.createElement('option');o.textContent=c;cs.appendChild(o)})};
+</script><script>
+document.querySelectorAll('input[name="mode"]').forEach(r=>r.addEventListener('change',()=>{
+  const check=r.value==='check';
+  document.getElementById('checkPanel').style.display=check?'block':'none';
+  document.getElementById('modeNote').textContent=check?'Checking is open to anyone — pick a state and county to see its non-compliance data and case files.':'Reporting is members-only — a member submission gives the movement an email contact point to follow up for more data, evidence, or proof.';
+}));
 </script></body></html>
