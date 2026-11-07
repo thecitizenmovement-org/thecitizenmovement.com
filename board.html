@@ -31,7 +31,7 @@
 </div>
 <script>
 const slides=[
-{title:"County & State Non-Compliance Board", body:"Citizens report. The founder filters. A mark is an investigative alert — not a finding, not a court conclusion.", link:null},
+{title:"County & State Non-Compliance Board", body:"Citizens report. A mark is an investigative alert — not a finding, not a court conclusion.", link:null},
 {title:"The Citizen Movement — .org", body:"Justice Wall, police-brutality and facility-complaint checklists, and the movement's public record. Select this slide to go there directly.", link:"https://thecitizenmovement.org/"},
 {title:".online — Coming soon", body:"Citizen audits, uploads, video library, evidence repository, and community reporting. Not open yet — coming soon.", link:null, loud:true},
 {title:"Contact card", body:"The movement's contact card — reach The Citizen Movement directly.", link:"https://thecitizenmovement.org/contact.html"},
@@ -39,7 +39,7 @@ const slides=[
 {title:"Law Library — snapshot", body:"A snapshot of the law library on .org — templates, codes, and references to look up yourself.", link:"https://thecitizenmovement.org/#library"},
 {title:"Justice Wall", body:"The Justice Wall on .org — cases the movement is tracking, including Case 002 and Case 003.", link:"https://thecitizenmovement.org/justice-wall.html"},
 {title:"Facility complaints", body:"A snapshot of the facility complaints page on .org — the facilities already listed there, with their records and findings.", link:"https://thecitizenmovement.org/facility-complaints.html"},
-{title:"The map — a quick look at what's to come", body:"Preview only: the red dots below are examples of how a marked map will look. No county or state is marked yet — a blank map means no reviewed report posted, not that an office is compliant.", link:null, map:true},
+{title:"The map — a quick look at what's to come", body:"Three counties are marked: Shasta CA, Tehama CA, and Laurel KY. A red dot is an investigative alert, not a finding. A blank map means no reviewed report posted, not that an office is compliant.", link:null, map:true},
 ];
 let si=0, playing=true, timer=null;
 function render(){
@@ -67,11 +67,11 @@ render(); restart();
 </script>
 <h1>County &amp; State Non-Compliance Board</h1>
 <p>The Citizen Movement — thecitizenmovement.com</p>
-<p><strong>No mark is automatic.</strong> Citizens report, the founder filters. An unapproved report does not go up. A mark is an investigative alert — a place for the investigations team and auditors to look, research, and investigate. It is <strong>not</strong> a finding and not a court conclusion.</p>
+<p>Citizens report. An unapproved report does not go up. A mark is an investigative alert — a place for the investigations team and auditors to look, research, and investigate. It is <strong>not</strong> a finding and not a court conclusion.</p>
 <div class="card"><h2>Marked counties</h2>
-<p style="color:#2c3a46"><span style="color:#dc2626">●</span> <strong>Shasta County, California</strong> — currently marked, investigative alert (not a finding or court conclusion). Details and case files for this county are being organized — the full non-compliance list for this county is large and will be navigated in sections.</p>
-<p style="color:#2c3a46"><span style="color:#dc2626">●</span> <strong>Tehama County, California</strong> — currently marked, investigative alert (not a finding or court conclusion). Details and case files for this county are being organized — the full non-compliance list for this county is large and will be navigated in sections.</p>
-<p style="color:#2c3a46"><span style="color:#dc2626">●</span> <strong>Laurel County, Kentucky</strong> — currently marked, investigative alert (not a finding or court conclusion). Justice Wall Case 002 — Doug Harless, Lily, Kentucky, December 23, 2024, London Police Department. Details and case files linked from the Justice Wall.</p>
+<p style="color:#2c3a46"><span style="color:#dc2626">●</span> <strong>Shasta County, California</strong> — currently marked, investigative alert (not a finding or court conclusion). <strong>Criteria:</strong> Failure to forward a police report to the District Attorney; non-response to citizen reports. <a href="shasta.html" style="color:#2c3a46">Details and case files, by agency &rarr;</a></p>
+<p style="color:#2c3a46"><span style="color:#dc2626">●</span> <strong>Tehama County, California</strong> — currently marked, investigative alert (not a finding or court conclusion). <strong>Criteria:</strong> Brady / Giglio disclosure; failure to produce records after a CPRA request; failure to investigate a citizen complaint; failure to release bodycam / use-of-force reports. <a href="tehama.html" style="color:#2c3a46">Details and case files, by agency &rarr;</a></p>
+<p style="color:#2c3a46"><span style="color:#dc2626">●</span> <strong>Laurel County, Kentucky</strong> — currently marked, investigative alert (not a finding or court conclusion). <strong>Criteria:</strong> Shooting ruled justified, no prosecution; failure to investigate a citizen complaint. Justice Wall Case 002 — Doug Harless, Lily, Kentucky, December 23, 2024, London Police Department. <a href="laurel.html" style="color:#2c3a46">Details and case files &rarr;</a></p>
 <p style="color:#2c3a46">No other county or state is marked yet. No dot at all means no reviewed report posted yet — not a finding of compliance.</p></div>
 
 <div class="card"><div class="card"><h2>What do you want to do?</h2>
@@ -108,13 +108,14 @@ render(); restart();
 </select>
 <label for="report">What was asked, when, and what paper supports it</label>
 <textarea id="report" rows="4" placeholder="Office, what was asked and when, and what copies support it…"></textarea>
-<button onclick="document.getElementById('done').style.display='block'">Submit for founder review (preview only — nothing is sent)</button>
-<p id="done" style="display:none;color:#2c3a46"><strong>Preview only.</strong> In the live version this goes to a founder-review queue. Nothing is posted until approved.</p>
+<button onclick="sendReport()">Send report to the founder (opens your email)</button>
+<p id="done" style="display:none;color:#2c3a46"><strong>Sent to your email app.</strong> Your report opens as an email to thecitizenmovement@gmail.com. Send it from your email to reach the founder-review queue. Nothing is posted until approved. Send copies, never originals.</p>
 </div>
 
 
 <div class="card" id="checkPanel" style="display:none"><h2>County check</h2>
 <p id="checkResult" style="color:#2c3a46">Pick a state and county above, then tap Check.</p>
+<button onclick="checkCounty()">Check this county</button>
 <p style="color:#2c3a46"><strong>Case files for this county:</strong> <span id="checkFiles">None posted yet.</span></p>
 </div>
 <div class="card"><h2>Pin color code</h2>
@@ -125,4 +126,77 @@ render(); restart();
 </ul>
 <p style="color:#2c3a46">No dot at all means no reviewed report posted yet — not a finding of compliance.</p>
 </div>
+
+<script>
+// Board logic: populate state/county from counties.json, toggle Report/Check, wire Report (mailto) and Check (case-file link).
+var MARKED = {
+  "California|Shasta": "shasta.html",
+  "California|Tehama": "tehama.html",
+  "Kentucky|Laurel": "laurel.html"
+};
+var countiesData = null;
+function loadCounties(){
+  fetch("counties.json").then(function(r){ return r.json(); }).then(function(data){
+    countiesData = data;
+    var st = document.getElementById("state");
+    Object.keys(data).sort().forEach(function(state){
+      var o = document.createElement("option"); o.value = state; o.textContent = state; st.appendChild(o);
+    });
+  }).catch(function(){ /* counties.json unavailable; dropdowns stay manual */ });
+}
+function onStateChange(){
+  var st = document.getElementById("state").value;
+  var co = document.getElementById("county");
+  co.innerHTML = '<option value="">Choose a county…</option>';
+  if (st && countiesData && countiesData[st]) {
+    countiesData[st].forEach(function(c){
+      var o = document.createElement("option"); o.value = c; o.textContent = c; co.appendChild(o);
+    });
+  }
+}
+function setMode(){
+  var mode = document.querySelector('input[name="mode"]:checked').value;
+  var reportForm = document.querySelector('#state').closest('.card');
+  var checkPanel = document.getElementById('checkPanel');
+  var note = document.getElementById('modeNote');
+  if (mode === 'check') {
+    checkPanel.style.display = 'block';
+    note.textContent = 'Checking is open to anyone. Pick a state and county, then tap Check to see that county\'s case files.';
+  } else {
+    checkPanel.style.display = 'none';
+    note.textContent = 'Reporting is members-only — a member submission gives the movement an email contact point to follow up for more data, evidence, or proof.';
+  }
+}
+function checkCounty(){
+  var st = document.getElementById("state").value;
+  var co = document.getElementById("county").value;
+  var res = document.getElementById("checkResult");
+  var files = document.getElementById("checkFiles");
+  if (!st || !co) { res.textContent = 'Pick a state and county first.'; return; }
+  var key = st + '|' + co;
+  if (MARKED[key]) {
+    res.innerHTML = '<strong>' + co + ' County, ' + st + '</strong> is currently marked — investigative alert, not a finding or court conclusion.';
+    files.innerHTML = '<a href="' + MARKED[key] + '" style="color:#2c3a46">View details and case files &rarr;</a>';
+  } else {
+    res.textContent = co + ' County, ' + st + ' is not marked. No reviewed report has been posted for this county — not a finding of compliance.';
+    files.textContent = 'None posted yet.';
+  }
+}
+function sendReport(){
+  var st = document.getElementById("state").value;
+  var co = document.getElementById("county").value;
+  var cr = document.getElementById("criteria").value;
+  var rp = document.getElementById("report").value;
+  if (!st || !co) { alert('Choose a state and county first.'); return; }
+  var subject = 'County report: ' + co + ' County, ' + st;
+  var body = 'County: ' + co + ', ' + st + '\nCriteria: ' + (cr || '(not chosen)') + '\n\nWhat was asked, when, and what paper supports it:\n' + rp + '\n\n— Sent from the Non-Compliance Board (members-only). Copies attached separately; originals never sent.';
+  window.location.href = 'mailto:thecitizenmovement@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+  document.getElementById('done').style.display = 'block';
+}
+document.getElementById("state").addEventListener("change", onStateChange);
+document.querySelectorAll('input[name="mode"]').forEach(function(r){ r.addEventListener("change", setMode); });
+loadCounties();
+setMode();
+</script>
+</div></div>
 </body></html>
