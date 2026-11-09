@@ -39,7 +39,7 @@ const slides=[
 {title:"Law Library — snapshot", body:"A snapshot of the law library on .org — templates, codes, and references to look up yourself.", link:"https://thecitizenmovement.org/#library"},
 {title:"Justice Wall", body:"The Justice Wall on .org — cases the movement is tracking, including Case 002 and Case 003.", link:"https://thecitizenmovement.org/justice-wall.html"},
 {title:"Facility complaints", body:"A snapshot of the facility complaints page on .org — the facilities already listed there, with their records and findings.", link:"https://thecitizenmovement.org/facility-complaints.html"},
-{title:"The map — a quick look at what's to come", body:"Three counties are marked: Shasta CA, Tehama CA, and Laurel KY. A red dot is an investigative alert, not a finding. A blank map means no reviewed report posted, not that an office is compliant.", link:null, map:true},
+{title:"The map — a quick look at what's to come", body:"Four counties are marked: Shasta CA, Tehama CA, Laurel KY, and Idaho County ID. Two more are coming soon: Escambia FL and Santa Rosa FL. A red dot is an investigative alert, not a finding. A gold dot is coming soon. A blank map means no reviewed report posted, not that an office is compliant.", link:null, map:true},
 ];
 let si=0, playing=true, timer=null;
 function render(){
@@ -52,7 +52,7 @@ function renderCard(){
   let inner='<h2 style="color:#e8c766;margin:0 0 8px">'+s.title+'</h2><p style="color:#f2ede3">'+s.body+'</p>';
   if(s.link){ inner+='<p><a href="'+s.link+'" style="font-size:1.1rem">Go to thecitizenmovement.org →</a></p>'; }
   if(s.loud){ inner+='<p style="background:#111;color:#ff2a2a;font-weight:bold;padding:10px;border-radius:6px">COMING SOON</p>'; }
-  if(s.map){ inner+='<div style="position:relative;max-width:520px;margin:10px auto"><img src="webgrid-us-map.svg" style="width:100%;border-radius:8px;display:block" alt="Dark webgrid US map preview"><span style="position:absolute;left:22%;top:38%;color:#ff2a2a;font-size:22px">●</span><span style="position:absolute;left:48%;top:30%;color:#ff2a2a;font-size:22px">●</span><span style="position:absolute;left:70%;top:50%;color:#ff2a2a;font-size:22px">●</span></div><p style="font-size:.85rem;color:#e8ebee">Example dots only — not real marks.</p>'; }
+  if(s.map){ inner+='<div style="position:relative;max-width:520px;margin:10px auto"><img src="webgrid-us-map.svg" style="width:100%;border-radius:8px;display:block" alt="Dark webgrid US map preview"><span style="position:absolute;left:4.0%;top:34.8%;color:#ff2a2a;text-shadow:0 0 6px #ff2a2a,0 0 14px #ff2a2a,0 0 22px rgba(255,42,42,.7);font-size:22px" title="Shasta County, California — marked">●</span><span style="position:absolute;left:6.2%;top:38.2%;color:#ff2a2a;text-shadow:0 0 6px #ff2a2a,0 0 14px #ff2a2a,0 0 22px rgba(255,42,42,.7);font-size:22px" title="Tehama County, California — marked">●</span><span style="position:absolute;left:15.8%;top:15.8%;color:#ff2a2a;text-shadow:0 0 6px #ff2a2a,0 0 14px #ff2a2a,0 0 22px rgba(255,42,42,.7);font-size:22px" title="Idaho County, Idaho — marked">●</span><span style="position:absolute;left:68.2%;top:49.6%;color:#ff2a2a;text-shadow:0 0 6px #ff2a2a,0 0 14px #ff2a2a,0 0 22px rgba(255,42,42,.7);font-size:22px" title="Laurel County, Kentucky — marked">●</span><span style="position:absolute;left:62.8%;top:74.1%;color:#e8c766;text-shadow:0 0 6px #e8c766,0 0 14px #e8c766,0 0 22px rgba(232,199,102,.7);font-size:22px" title="Escambia County, Florida — coming soon">●</span><span style="position:absolute;left:64.6%;top:74.9%;color:#e8c766;text-shadow:0 0 6px #e8c766,0 0 14px #e8c766,0 0 22px rgba(232,199,102,.7);font-size:22px" title="Santa Rosa County, Florida — coming soon">●</span></div><p style="font-size:.85rem;color:#e8ebee">Red dot — marked county. Gold dot — coming soon.</p>'; }
   document.getElementById('slide-body').innerHTML=inner;
   document.getElementById('slide-counter').textContent='Slide '+(si+1)+' of '+slides.length;
   document.getElementById('slide-dots').innerHTML=slides.map((_,i)=>'<button onclick="goSlide('+i+')" style="margin:2px;background:'+(i===si?'#e8c766':'#5b7183')+';color:#111;border:none;border-radius:50%;width:28px;height:28px;cursor:pointer">'+(i+1)+'</button>').join('');
@@ -75,7 +75,20 @@ render(); restart();
 <p style="color:#2c3a46"><span style="color:#dc2626">●</span> <strong>Idaho County, Idaho</strong> — currently marked, investigative alert (not a finding or court conclusion). <strong>Criteria:</strong> Alleged severe medical neglect and retaliation in county custody; failure to act on requests for emergency protective custody and independent medical evaluation. <a href="idaho.html" style="color:#2c3a46">Details and case files &rarr;</a></p>
 <p style="color:#2c3a46"><strong>Escambia County, Florida</strong> — coming soon. <strong>Criteria:</strong> Coming soon — county list being compiled.</p>
 <p style="color:#2c3a46"><strong>Santa Rosa County, Florida</strong> — coming soon. <strong>Criteria:</strong> Coming soon — county list being compiled.</p>
+<p><a href="#location-index"><button>Open the location index</button></a></p>
 <p style="color:#2c3a46">No other county or state is marked yet. No dot at all means no reviewed report posted yet — not a finding of compliance.</p></div>
+
+<div class="card" id="location-index"><h2>Index of locations</h2>
+<p style="color:#2c3a46">Every county on this board — marked and coming soon. Pick a state and county in the County check below to look any of them up.</p>
+<table style="width:100%;border-collapse:collapse;color:#2c3a46">
+<tr><th style="text-align:left;border-bottom:1px solid #5b7183;padding:6px">County</th><th style="text-align:left;border-bottom:1px solid #5b7183;padding:6px">State</th><th style="text-align:left;border-bottom:1px solid #5b7183;padding:6px">Status</th><th style="text-align:left;border-bottom:1px solid #5b7183;padding:6px">Criteria</th><th style="text-align:left;border-bottom:1px solid #5b7183;padding:6px">Details</th></tr>
+<tr><td style="padding:6px">Shasta</td><td style="padding:6px">California</td><td style="padding:6px">Marked</td><td style="padding:6px">Failure to forward a police report to the District Attorney; non-response to citizen reports.</td><td style="padding:6px"><a href="shasta.html" style="color:#2c3a46">Details &rarr;</a></td></tr>
+<tr><td style="padding:6px">Tehama</td><td style="padding:6px">California</td><td style="padding:6px">Marked</td><td style="padding:6px">Brady / Giglio disclosure; failure to produce records after a CPRA request; failure to investigate a citizen complaint; failure to release bodycam / use-of-force reports.</td><td style="padding:6px"><a href="tehama.html" style="color:#2c3a46">Details &rarr;</a></td></tr>
+<tr><td style="padding:6px">Laurel</td><td style="padding:6px">Kentucky</td><td style="padding:6px">Marked</td><td style="padding:6px">Shooting ruled justified, no prosecution; failure to investigate a citizen complaint.</td><td style="padding:6px"><a href="laurel.html" style="color:#2c3a46">Details &rarr;</a></td></tr>
+<tr><td style="padding:6px">Idaho</td><td style="padding:6px">Idaho</td><td style="padding:6px">Marked</td><td style="padding:6px">Alleged severe medical neglect and retaliation in county custody; failure to act on requests for emergency protective custody and independent medical evaluation.</td><td style="padding:6px"><a href="idaho.html" style="color:#2c3a46">Details &rarr;</a></td></tr>
+<tr><td style="padding:6px">Escambia</td><td style="padding:6px">Florida</td><td style="padding:6px">Coming soon</td><td style="padding:6px">Coming soon — county list being compiled.</td><td style="padding:6px">Details to follow.</td></tr>
+<tr><td style="padding:6px">Santa Rosa</td><td style="padding:6px">Florida</td><td style="padding:6px">Coming soon</td><td style="padding:6px">Coming soon — county list being compiled.</td><td style="padding:6px">Details to follow.</td></tr>
+</table></div>
 
 <div class="card"><div class="card"><h2>What do you want to do?</h2>
 <label><input type="radio" name="mode" value="report" checked> Report a county</label> &nbsp;
@@ -122,9 +135,10 @@ render(); restart();
 <p style="color:#2c3a46"><strong>Case files for this county:</strong> <span id="checkFiles">None posted yet.</span></p>
 </div>
 <div class="card"><h2>Pin color code</h2>
-<p style="color:#2c3a46">The movement is nonpartisan — no party colors, no party geography on this map. Dots are locators: red while non-compliant, light as a scar once compliant.</p>
+<p style="color:#2c3a46">The movement is nonpartisan — no party colors, no party geography on this map. Dots are locators: red while non-compliant, gold while coming soon, light as a scar once compliant.</p>
 <ul style="color:#2c3a46">
 <li><span style="color:#dc2626">●</span> <strong>Dot on — Non-compliant</strong> (investigative alert, not a finding or court conclusion)</li>
+<li><span style="color:#e8c766">●</span> <strong>Gold dot — Coming soon</strong> (a county the team is compiling; not marked yet, no finding)</li>
 <li><strong>Light dot — Previously non-compliant</strong> (when a county comes into compliance, its red dot fades to the same light dot already on the map — a scar, not a disappearance; no red means no live alert)</li>
 </ul>
 <p style="color:#2c3a46">No dot at all means no reviewed report posted yet — not a finding of compliance.</p>
@@ -137,6 +151,10 @@ var MARKED = {
   "California|Tehama": "tehama.html",
   "Kentucky|Laurel": "laurel.html",
   "Idaho|Idaho": "idaho.html"
+};
+var COMING_SOON = {
+  "Florida|Escambia": true,
+  "Florida|Santa Rosa": true
 };
 var countiesData = null;
 function loadCounties(){
@@ -181,6 +199,9 @@ function checkCounty(){
   if (MARKED[key]) {
     res.innerHTML = '<strong>' + co + ' County, ' + st + '</strong> is currently marked — investigative alert, not a finding or court conclusion.';
     files.innerHTML = '<a href="' + MARKED[key] + '" style="color:#2c3a46">View details and case files &rarr;</a>';
+  } else if (COMING_SOON[key]) {
+    res.innerHTML = '<strong>' + co + ' County, ' + st + '</strong> is coming soon — the team is compiling this county now. Not marked yet, and not a finding.';
+    files.textContent = 'None posted yet — details to follow.';
   } else {
     res.textContent = co + ' County, ' + st + ' is not marked. No reviewed report has been posted for this county — not a finding of compliance.';
     files.textContent = 'None posted yet.';
