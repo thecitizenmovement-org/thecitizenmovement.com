@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Public service announcement: what Shasta County is saying about the Anderson Parks rent pause.">
+<title>Public Service Announcement — Anderson Parks Rent Pause — The Citizen Movement</title>
+<style>
+body{margin:0;font-family:Georgia,serif;background:#e8ebee;color:#2c3a46}
+.tabs{display:flex;gap:6px;justify-content:center;background:#2c3a46;padding:10px;flex-wrap:wrap}
+.tabs a{color:#e8ebee;text-decoration:none;padding:10px 18px;border:1px solid #5b7183;border-radius:6px}
+.tabs a.active{background:#e8ebee;color:#2c3a46;font-weight:bold}
+.card{max-width:760px;margin:22px auto;background:#fff;padding:22px;border-radius:8px}
+.card a{color:#2c3a46;font-weight:bold}
+h1{text-align:center;font-size:2rem;margin:28px 0 4px}
+.lede{max-width:760px;margin:0 auto 10px;text-align:center;color:#5b7183;padding:0 22px}
+h2{margin:0 0 6px;color:#1e7fd6}
+.tag{color:#5b7183;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.card p{margin:0 0 16px;color:#5b7183}
+.card .criteria{margin:0 0 16px;padding-left:22px;color:#5b7183}
+.card .criteria li{margin-bottom:4px}
+.member-note{max-width:760px;margin:22px auto;background:#e6f2fb;padding:16px 22px;border-radius:8px;border:1px solid #1e7fd6;text-align:center}
+.member-note strong{color:#1e7fd6}
+.filters{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:22px auto;max-width:760px}
+.filters button{background:#fff;border:1px solid #5b7183;color:#2c3a46;padding:10px 20px;cursor:pointer;font:inherit;border-radius:6px;font-weight:700}
+.filters button.active{background:#1e7fd6;border-color:#1e7fd6;color:#fff}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:1px solid #5b7183;color:#2c3a46;padding:12px 16px;margin-bottom:8px;cursor:pointer;font:inherit;border-radius:6px}
+.opt:hover{background:#e8ebee}
+.opt.selected{border-color:#1e7fd6;background:#e6f2fb}
+.opt.voted{border-color:#2c3a46;background:#e8ebee;font-weight:bold}
+.take{display:block;width:100%;background:#1e7fd6;color:#fff;border:1px solid #1e7fd6;padding:14px 16px;margin-top:12px;cursor:pointer;font:inherit;font-weight:700;border-radius:6px;font-size:1rem}
+.take:hover{background:#1668b5}
+.take:disabled{opacity:.45;cursor:not-allowed}
+.bar{height:8px;background:#e8ebee;border-radius:4px;margin-top:6px;overflow:hidden}
+.bar i{display:block;height:100%;background:#1e7fd6}
+.res{display:flex;justify-content:space-between;font-size:.9rem;color:#5b7183;margin-top:4px}
+.total{font-size:.9rem;color:#5b7183;margin-top:10px}
+.readmore{display:inline-block;margin-top:14px;color:#1e7fd6;font-weight:700;text-decoration:none}
+.readmore:hover{text-decoration:underline}
+.note{max-width:760px;margin:22px auto;background:#fff;padding:22px;border-radius:8px;border-left:3px solid #2c3a46;font-size:.95rem}
+footer{max-width:760px;margin:22px auto 40px;text-align:center;color:#5b7183;font-size:.9rem;padding:0 22px}
+
+.authbar{max-width:760px;margin:22px auto;background:#fff;padding:18px 22px;border-radius:8px;border:1px solid #1e7fd6;text-align:center}
+.authbar h3{color:#1e7fd6;margin:0 0 4px}
+.authbar p{color:#5b7183;margin:0 0 12px;font-size:.95rem}
+.authbar input{display:inline-block;width:min(260px,100%);padding:10px 12px;margin:4px;border:1px solid #5b7183;border-radius:6px;font:inherit}
+.authbar button{background:#1e7fd6;color:#fff;border:1px solid #1e7fd6;padding:10px 20px;margin:4px;cursor:pointer;font:inherit;font-weight:700;border-radius:6px}
+.authbar button:hover{background:#1668b5}
+.authbar button.ghost{background:#fff;color:#1e7fd6;border-color:#1e7fd6}
+.authbar .err{color:#9d2f32;font-size:.9rem;margin-top:8px}
+.authbar .ok{color:#2c3a46;font-size:.95rem}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.min.js"></script>
+</head>
+<body>
+<nav class="tabs"><a href="index.html">Home</a><a href="board.html">Non-Compliance Board</a><a href="investigations.html">Investigations</a><a href="polls.html">Polls</a><a href="notice-of-intent.html">Notice of Intent</a><a href="read-this-first.html">Read This First</a><a href="contact.html">Contact Us</a><a href="legal-team.html">Legal Team</a><a href="foundry.html" class="foundry-link" hidden>Foundry</a><a href="https://thecitizenmovement.store">Store</a></nav>
+
+<h1>Public Service Announcement</h1>
+<p class="lede">What Shasta County Is Saying — Anderson Parks Rent Pause</p>
+
+<div class="note"><strong>Posted November 11, 2026.</strong> This announcement reports what residents of Shasta County said in a public community discussion on November 10, 2026, about a rent increase at two Shasta County mobile home parks. Private residents are not named. The founder&rsquo;s own words are quoted as his account.</div>
+
+<div class="card">
+<h2>The story</h2>
+<p>A planned <strong>$300 rent increase</strong> at two Shasta County mobile home parks is <strong>paused for 90 days</strong>. Residents are asking: <strong>what happens on day 91?</strong> They want written protection during the pause, transparency, and a real commitment to a permanent rent stabilization agreement. As one resident put it: this issue is bigger than one property owner or one rent increase — it affects mobile home owners throughout Shasta County.</p>
+</div>
+
+<div class="card">
+<h2>What the people said</h2>
+<p>Thirteen comments in the discussion. The issues the people raised:</p>
+<ul class="criteria">
+<li><strong>Redding needs the same protection.</strong> A Redding resident said landlords there raise rent every year, and Redding needs the pause too.</li>
+<li><strong>California&rsquo;s rent-increase limits.</strong> A resident said the law allows rent to be raised twice a year by 5% each time, or once a year by 10% — and called it price gouging.</li>
+<li><strong>The pause should be permanent.</strong> A resident said it should be a permanent pause, not 90 days.</li>
+<li><strong>REU power rates and shutoffs.</strong> The founder: REU &ldquo;just decides it&rsquo;s going to fluctuate your power rate&rdquo; and there is no other choice — a monopoly. A mother with two kids and one on the way had her power shut off because her payment plan lands two days after her bill every month.</li>
+<li><strong>CPS, social workers, and the judges.</strong> A resident asked whether the movement is looking into the Department of Health and Human Services — CPS and social workers — and the judges who handle CPS cases.</li>
+<li><strong>The answer given:</strong> CPS and social workers <em>are</em> being investigated. The child support division <em>is</em> being investigated. Judges have been touched on briefly; law enforcement and the District Attorney&rsquo;s offices are covered. The investigation keeps expanding.</li>
+<li><strong>Cost of living, then vs now.</strong> The founder posted the 1983 vs 2026 poster: gas $1.24 vs $5.89, a new car $8,577 vs $48,000, a median home $82,600 vs $430,000, minimum wage $3.35 vs $16.50.</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>What happens now</h2>
+<p>Thirteen new Shasta County polls are live on the Polling Station — one for each issue the people raised. Members sign in to vote. One vote per poll per member. Anonymous — nobody sees who voted how.</p>
+<ul class="criteria">
+<li>Should Shasta County mobile home parks have permanent rent stabilization?</li>
+<li>Should Redding stop landlords from raising rent every year?</li>
+<li>Do you believe landlords in Shasta County are price gouging with rent increases?</li>
+<li>Should Redding Electric Utility&rsquo;s rates and shutoff practices be investigated?</li>
+<li>Should Shasta County CPS and its social workers be investigated?</li>
+<li>Should the judges who handle CPS cases be investigated?</li>
+<li>Should the child support division be investigated?</li>
+<li>Have you or someone you know had a vehicle stolen in Shasta County that was never recovered?</li>
+<li>Should Shasta County Registrar Clint Curtis be removed from office?</li>
+<li>Have you or someone you know been falsely accused or denied justice in Shasta County?</li>
+<li>Have you had a case in Shasta County that was never solved?</li>
+<li>Do you believe Shasta County has misplaced or misspent public money?</li>
+<li>Is life in Shasta County harder now than it was in 1983?</li>
+</ul>
+<p><a class="readmore" href="polls.html">Vote on the Polling Station &rarr;</a></p>
+</div>
+
+<footer>The Citizen Movement &middot; The citizens vote.</footer>
+</body>
+</html>
