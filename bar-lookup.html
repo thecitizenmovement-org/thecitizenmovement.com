@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="State Bar lookup — pick your state and get the disciplinary phone line and mailing address. Members only tool of The Citizen Movement.">
+<title>Bar / Complaints — The Citizen Movement</title>
+<style>
+body{margin:0;font-family:Georgia,serif;background:#e8ebee;color:#2c3a46}
+.tabs{display:flex;gap:6px;justify-content:center;background:#2c3a46;padding:10px;flex-wrap:wrap}
+.tabs a{color:#e8ebee;text-decoration:none;padding:10px 18px;border:1px solid #5b7183;border-radius:6px}
+.tabs a.active{background:#e8ebee;color:#2c3a46;font-weight:bold}
+.card{max-width:760px;margin:22px auto;background:#fff;padding:22px;border-radius:8px}
+.card a{color:#2c3a46;font-weight:bold}
+h1{text-align:center;font-size:2rem;margin:28px 0 4px}
+.lede{max-width:760px;margin:0 auto 10px;text-align:center;color:#5b7183;padding:0 22px}
+h2{margin:0 0 6px;color:#1e7fd6}
+.tag{color:#5b7183;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.card p{margin:0 0 16px;color:#5b7183}
+.card .criteria{margin:0 0 16px;padding-left:22px;color:#5b7183}
+.card .criteria li{margin-bottom:4px}
+.member-note{max-width:760px;margin:22px auto;background:#e6f2fb;padding:16px 22px;border-radius:8px;border:1px solid #1e7fd6;text-align:center}
+.member-note strong{color:#1e7fd6}
+.filters{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:22px auto;max-width:760px}
+.filters button{background:#fff;border:1px solid #5b7183;color:#2c3a46;padding:10px 20px;cursor:pointer;font:inherit;border-radius:6px;font-weight:700}
+.filters button.active{background:#1e7fd6;border-color:#1e7fd6;color:#fff}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:1px solid #5b7183;color:#2c3a46;padding:12px 16px;margin-bottom:8px;cursor:pointer;font:inherit;border-radius:6px}
+.opt:hover{background:#e8ebee}
+.opt.selected{border-color:#1e7fd6;background:#e6f2fb}
+.opt.voted{border-color:#2c3a46;background:#e8ebee;font-weight:bold}
+.take{display:block;width:100%;background:#1e7fd6;color:#fff;border:1px solid #1e7fd6;padding:14px 16px;margin-top:12px;cursor:pointer;font:inherit;font-weight:700;border-radius:6px;font-size:1rem}
+.take:hover{background:#1668b5}
+.take:disabled{opacity:.45;cursor:not-allowed}
+.bar{height:8px;background:#e8ebee;border-radius:4px;margin-top:6px;overflow:hidden}
+.bar i{display:block;height:100%;background:#1e7fd6}
+.res{display:flex;justify-content:space-between;font-size:.9rem;color:#5b7183;margin-top:4px}
+.total{font-size:.9rem;color:#5b7183;margin-top:10px}
+.readmore{display:inline-block;margin-top:14px;color:#1e7fd6;font-weight:700;text-decoration:none}
+.readmore:hover{text-decoration:underline}
+.note{max-width:760px;margin:22px auto;background:#fff;padding:22px;border-radius:8px;border-left:3px solid #2c3a46;font-size:.95rem}
+footer{max-width:760px;margin:22px auto 40px;text-align:center;color:#5b7183;font-size:.9rem;padding:0 22px}
+
+.authbar{max-width:760px;margin:22px auto;background:#fff;padding:18px 22px;border-radius:8px;border:1px solid #1e7fd6;text-align:center}
+.authbar h3{color:#1e7fd6;margin:0 0 4px}
+.authbar p{color:#5b7183;margin:0 0 12px;font-size:.95rem}
+.authbar input{display:inline-block;width:min(260px,100%);padding:10px 12px;margin:4px;border:1px solid #5b7183;border-radius:6px;font:inherit}
+.authbar button{background:#1e7fd6;color:#fff;border:1px solid #1e7fd6;padding:10px 20px;margin:4px;cursor:pointer;font:inherit;font-weight:700;border-radius:6px}
+.authbar button:hover{background:#1668b5}
+.authbar button.ghost{background:#fff;color:#1e7fd6;border-color:#1e7fd6}
+.authbar .err{color:#9d2f32;font-size:.9rem;margin-top:8px}
+.authbar .ok{color:#2c3a46;font-size:.95rem}
+
+.lookup{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px}
+.lookup select,.lookup input{flex:1;min-width:200px;padding:12px;border:1px solid #5b7183;border-radius:6px;font:inherit;color:#2c3a46;background:#fff}
+.result{border:1px solid #1e7fd6;border-radius:8px;padding:18px;background:#e6f2fb}
+.result h2{margin-top:0}
+.result .phone{font-size:1.3rem;font-weight:bold}
+.result .phone a{color:#1e7fd6;text-decoration:none}
+.result .addr{font-size:1.05rem;margin:10px 0}
+.copybtn{background:#1e7fd6;color:#fff;border:1px solid #1e7fd6;padding:10px 18px;cursor:pointer;font:inherit;font-weight:700;border-radius:6px}
+.copybtn:hover{background:#1668b5}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:14px}
+.statecard{background:#fff;border:1px solid #5b7183;border-radius:8px;padding:14px;cursor:pointer;text-align:left;font:inherit;color:#2c3a46}
+.statecard:hover{border-color:#1e7fd6;background:#e6f2fb}
+.statecard h3{margin:0 0 6px;font-size:1.05rem;color:#2c3a46}
+.statecard p{margin:0 0 6px;color:#5b7183;font-size:.92rem}
+.statecard .ph{font-weight:bold;color:#1e7fd6}
+.statecard a{color:#1e7fd6}
+.gridfilter{width:100%;padding:12px;border:1px solid #5b7183;border-radius:6px;font:inherit;color:#2c3a46;margin-top:10px}
+.howto h3{margin:18px 0 6px;color:#2c3a46}
+.howto ul{margin:0 0 10px;padding-left:22px;color:#5b7183}
+.howto li{margin-bottom:6px}
+</style>
+</head>
+<body>
+<nav class="tabs"><a href="index.html">Home</a><a href="board.html">Non-Compliance Board</a><a href="investigations.html">Investigations</a><a href="polls.html">Polls</a><a href="notice-of-intent.html">Notice of Intent</a><a href="read-this-first.html">Read This First</a><a href="contact.html">Contact Us</a><a href="legal-team.html">Legal Team</a><a href="bar-lookup.html" class="active">Bar/Complaints</a><a href="foundry.html" class="foundry-link" hidden>Foundry</a><a href="https://thecitizenmovement.store">Store</a></nav>
+<h1>Bar / Complaints</h1>
+<p class="lede">Pick your state and get the disciplinary phone line and mailing address for the body that can actually discipline a lawyer. Only the state bar or disciplinary counsel can discipline an attorney — a local bar association cannot.</p>
+
+<div class="card">
+<div class="tag">State Bar Lookup</div>
+<h2>Look up a state</h2>
+<p>Type to narrow the list, or pick a state from the dropdown.</p>
+<div class="lookup">
+<input id="q" type="search" placeholder="Search states&hellip;" autocomplete="off" aria-label="Search states">
+<select id="stateSel" aria-label="Select a state">
+<option value="Alabama">Alabama</option>
+<option value="Alaska">Alaska</option>
+<option value="Arizona">Arizona</option>
+<option value="Arkansas">Arkansas</option>
+<option value="California">California</option>
+<option value="Colorado">Colorado</option>
+<option value="Connecticut">Connecticut</option>
+<option value="Delaware">Delaware</option>
+<option value="District of Columbia">District of Columbia</option>
+<option value="Florida">Florida</option>
+<option value="Georgia">Georgia</option>
+<option value="Hawaii">Hawaii</option>
+<option value="Idaho">Idaho</option>
+<option value="Illinois">Illinois</option>
+<option value="Indiana">Indiana</option>
+<option value="Iowa">Iowa</option>
+<option value="Kansas">Kansas</option>
+<option value="Kentucky">Kentucky</option>
+<option value="Louisiana">Louisiana</option>
+<option value="Maine">Maine</option>
+<option value="Maryland">Maryland</option>
+<option value="Massachusetts">Massachusetts</option>
+<option value="Michigan">Michigan</option>
+<option value="Minnesota">Minnesota</option>
+<option value="Mississippi">Mississippi</option>
+<option value="Missouri">Missouri</option>
+<option value="Montana">Montana</option>
+<option value="Nebraska">Nebraska</option>
+<option value="Nevada">Nevada</option>
+<option value="New Hampshire">New Hampshire</option>
+<option value="New Jersey">New Jersey</option>
+<option value="New Mexico">New Mexico</option>
+<option value="New York">New York</option>
+<option value="North Carolina">North Carolina</option>
+<option value="North Dakota">North Dakota</option>
+<option value="Ohio">Ohio</option>
+<option value="Oklahoma">Oklahoma</option>
+<option value="Oregon">Oregon</option>
+<option value="Pennsylvania">Pennsylvania</option>
+<option value="Rhode Island">Rhode Island</option>
+<option value="South Carolina">South Carolina</option>
+<option value="South Dakota">South Dakota</option>
+<option value="Tennessee">Tennessee</option>
+<option value="Texas">Texas</option>
+<option value="Utah">Utah</option>
+<option value="Vermont">Vermont</option>
+<option value="Virginia">Virginia</option>
+<option value="Washington">Washington</option>
+<option value="West Virginia">West Virginia</option>
+<option value="Wisconsin">Wisconsin</option>
+<option value="Wyoming">Wyoming</option>
+</select>
+</div>
+<div class="result" id="result"></div>
+</div>
+
+<div class="card howto">
+<div class="tag">How to file a complaint</div>
+<h2>How to file a complaint</h2>
+<p>Pick your state in the lookup above to get the disciplinary line and mailing address for where your complaint goes.</p>
+<h3>California</h3>
+<ul>
+<li>File online at <a href="https://apps.calbar.ca.gov/complaint/">apps.calbar.ca.gov/complaint</a> — up to 10 attachments, 4 MB each.</li>
+<li>Or mail to: Office of Chief Trial Counsel Intake, 845 South Figueroa Street, Los Angeles, CA 90017.</li>
+<li>Questions: <a href="tel:+18008439053">800-843-9053</a>.</li>
+</ul>
+<h3>Texas</h3>
+<ul>
+<li>File online at <a href="https://sbotservices.texasbar.com/">sbotservices.texasbar.com</a> — the current grievance form is required.</li>
+<li>Fax: (512) 427-4315.</li>
+<li>Or mail to: Chief Disciplinary Counsel&rsquo;s Office, P.O. Box 13287, Austin, TX 78711.</li>
+<li>Helpline: <a href="tel:+18009321900">1-800-932-1900</a>.</li>
+</ul>
+<h3>Good to know before you file</h3>
+<ul>
+<li>Complaints are free.</li>
+<li>Complaints are confidential unless charges are filed.</li>
+<li>Use the current form — old forms get sent back.</li>
+<li>A grievance names an individual attorney, not a firm.</li>
+</ul>
+</div>
+
+<div class="card">
+<div class="tag">All 50 States + DC</div>
+<h2>All 50 states + DC</h2>
+<p>Every state plus the District of Columbia. Tap any card to load it in the lookup above. Contacts verified November 11, 2026 from each state&rsquo;s official bar, supreme court, or disciplinary counsel site — if mail comes back, call the number listed to confirm the current address.</p>
+<input class="gridfilter" id="gridq" type="search" placeholder="Filter states&hellip;" autocomplete="off" aria-label="Filter states">
+<div class="grid" id="grid">
+<button class="statecard" data-state="Alabama"><h3>Alabama</h3><p>Disciplinary Commission, Alabama State Bar (Office of General Counsel, Disciplinary Division)</p><p class="ph"><a href="tel:+13342691515">334-269-1515</a></p><p>P.O. Box 671, Montgomery, AL 36101-0671</p><p><a href="https://www.alabar.org/office-of-general-counsel/disciplinary-division/" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Alaska"><h3>Alaska</h3><p>Alaska Bar Association, Bar Counsel</p><p class="ph"><a href="tel:+19072727469">907-272-7469</a></p><p>840 K Street, Suite 100, Anchorage, AK 99501-3353</p><p><a href="https://alaskabar.org/for-our-community/complaints-against-attorneys/" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Arizona"><h3>Arizona</h3><p>State Bar of Arizona, Lawyer Regulation Office (Intake Department)</p><p class="ph"><a href="tel:+16023407280">602-340-7280</a></p><p>4201 N. 24th Street, Suite 100, Phoenix, AZ 85016-6266</p><p><a href="https://www.azbar.org/for-the-public/concerns-about-your-legal-professional/submitting-a-charge/" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Arkansas"><h3>Arkansas</h3><p>Supreme Court of Arkansas, Office of Professional Conduct (Committee on Professional Conduct)</p><p class="ph"><a href="tel:+15013760313">(501) 376-0313</a></p><p>Multi-Agency Complex, One Capitol Mall, Ste. 3D-101, Little Rock, AR 72201</p><p><a href="http://arcourts.gov/sites/default/files/formatted-files/1.6_GRIEVANCE_FORM_SC_AR_(Revised%2008-06-25)_(FILLABLE).pdf" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="California"><h3>California</h3><p>State Bar of California, Office of Chief Trial Counsel Intake</p><p class="ph"><a href="tel:+18008439053">800-843-9053</a></p><p>845 South Figueroa Street, Los Angeles, CA 90017</p><p><a href="https://apps.calbar.ca.gov/complaint/" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Colorado"><h3>Colorado</h3><p>Colorado Supreme Court, Office of Attorney Regulation Counsel</p><p class="ph"><a href="tel:+13034575800">(303) 457-5800</a></p><p>1300 Broadway, Suite 500, Denver, CO 80203</p><p><a href="https://www.coloradolegalregulation.com/complaints/file_complaintagainstatty/" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Connecticut"><h3>Connecticut</h3><p>Statewide Grievance Committee (Statewide Bar Counsel)</p><p class="ph"><a href="tel:+18602963848">(860) 296-3848</a></p><p>999 Asylum Avenue, Fifth Floor, Hartford, CT 06105</p><p><a href="https://www.jud.ct.gov/SGC/faq_discipline.htm" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Delaware"><h3>Delaware</h3><p>Office of Disciplinary Counsel, Supreme Court of Delaware</p><p class="ph"><a href="tel:+13026513931">(302) 651-3931</a></p><p>Leonard L. Williams Justice Center, 500 N. King Street, Wilmington, DE 19801</p><p><a href="https://courts.delaware.gov/odc/complaint.aspx" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="District of Columbia"><h3>District of Columbia</h3><p>Office of Disciplinary Counsel, District of Columbia Court of Appeals</p><p class="ph"><a href="tel:+12026381501">202-638-1501</a></p><p>515 5th Street NW, Building A, Suite 117, Washington, DC 20001</p><p><a href="https://www.dcbar.org//Attorney-Discipline/Office-of-Disciplinary-Counsel/Filing-a-Complaint/How-To-File-a-Complaint" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Florida"><h3>Florida</h3><p>The Florida Bar, Attorney Consumer Assistance Program (ACAP)</p><p class="ph"><a href="tel:+18663520707">1-866-352-0707</a></p><p>651 E. Jefferson Street, Tallahassee, FL 32399-2300</p><p><a href="https://www.floridabar.org/about/contact/" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Georgia"><h3>Georgia</h3><p>State Bar of Georgia, Office of General Counsel</p><p class="ph"><a href="tel:+14045278720">(404) 527-8720</a></p><p>104 Marietta Street NW, Suite 100, Atlanta, GA 30303</p><p><a href="https://www.gabar.org/forthepublic/fileacomplaint.cfm" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Hawaii"><h3>Hawaii</h3><p>Disciplinary Board of the Hawai&#x27;i Supreme Court, Office of Disciplinary Counsel</p><p class="ph"><a href="tel:+18085214591">(808) 521-4591</a></p><p>201 Merchant Street, Suite 1600, Honolulu, HI 96813</p><p><a href="https://dbhawaii.org/how-to-file-a-complaint-with-the-odc/" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Idaho"><h3>Idaho</h3><p>Idaho State Bar, Office of Bar Counsel</p><p class="ph"><a href="tel:+12083344500">(208) 334-4500</a></p><p>P.O. Box 895, Boise, ID 83701</p><p><a href="https://isb.idaho.gov/frequently-asked-questions/" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Illinois"><h3>Illinois</h3><p>Attorney Registration and Disciplinary Commission of the Supreme Court of Illinois (ARDC)</p><p class="ph"><a href="tel:+13125652600">(312) 565-2600</a></p><p>130 E. Randolph Dr., Suite 1500, Chicago, IL 60601-6219</p><p><a href="https://iardc.org/Home/FileComplaint" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Indiana"><h3>Indiana</h3><p>Indiana Supreme Court Disciplinary Commission</p><p class="ph"><a href="tel:+13172321807">(317) 232-1807</a></p><p>251 N. Illinois Street, Suite 500, Indianapolis, IN 46204</p><p><a href="https://www.in.gov/courts/ojar/di-process/complaint" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Iowa"><h3>Iowa</h3><p>Iowa Supreme Court Attorney Disciplinary Board</p><p class="ph"><a href="tel:+15153484680">(515) 348-4680</a></p><p>Iowa Judicial Branch Building, 1111 East Court Avenue, Des Moines, IA 50319</p><p><a href="https://www.iowacourts.gov/browse/files/4a37a1b5f6b340cbadaebb6f04c0cf96/download" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Kansas"><h3>Kansas</h3><p>Office of the Disciplinary Administrator, Kansas Supreme Court</p><p class="ph"><a href="tel:+17854358200">785-435-8200</a></p><p>Kansas Judicial Center, 301 SW 10th Ave, Topeka, KS 66612</p><p><a href="https://kscourts.gov/Attorneys/Office-of-Disciplinary-Administration/File-a-Complaint" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Kentucky"><h3>Kentucky</h3><p>Kentucky Bar Association, Office of Bar Counsel</p><p class="ph"><a href="tel:+15025643795">(502) 564-3795</a></p><p>514 West Main Street, Frankfort, KY 40601-1812</p><p><a href="https://kybar.org/Portals/0/OBC/OBC%20Complaint%20Form%20091426.pdf" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Louisiana"><h3>Louisiana</h3><p>Louisiana Attorney Disciplinary Board</p><p class="ph"><a href="tel:+15048341488">(504) 834-1488</a></p><p>2800 Veterans Memorial Blvd, Suite 310, Metairie, LA 70002</p><p><a href="http://www.ladb.org/" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Maine"><h3>Maine</h3><p>Maine Board of Overseers of the Bar, Bar Counsel (Central Intake Office)</p><p class="ph"><a href="tel:+12076231121">(207) 623-1121</a></p><p>P.O. Box 527, Augusta, ME 04332-0527</p><p><a href="https://www.mebaroverseers.org/docs/Grievance%20Complaint%20Form.pdf" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Maryland"><h3>Maryland</h3><p>Attorney Grievance Commission of Maryland, Office of Bar Counsel</p><p class="ph"><a href="tel:+14105147051">(410) 514-7051</a></p><p>200 Harry S. Truman Parkway, Suite 300, Annapolis, MD 21401</p><p><a href="https://www.mdcourts.gov/attygrievance/faqs" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Massachusetts"><h3>Massachusetts</h3><p>Board of Bar Overseers, Office of the Bar Counsel (Attorney and Consumer Assistance Program)</p><p class="ph"><a href="tel:+16177288750">(617) 728-8750</a></p><p>1 Beacon Street, Boston, MA 02108</p><p><a href="https://www.massbbo.org/s/complaints?shem=rimspwouoe%2C" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Michigan"><h3>Michigan</h3><p>Michigan Attorney Grievance Commission</p><p class="ph"><a href="tel:+13139616585">(313) 961-6585</a></p><p>755 W. Big Beaver Rd., Suite 2100, Troy, MI 48084</p><p><a href="https://www.michbar.org/professional/disciplinary" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Minnesota"><h3>Minnesota</h3><p>Office of Lawyers Professional Responsibility (Minnesota Supreme Court)</p><p class="ph"><a href="tel:+16512963952">(651) 296-3952</a></p><p>Minnesota Judicial Center, Suite 105, 25 Rev. Dr. Martin Luther King Jr. Blvd., St. Paul, MN 55155</p><p><a href="https://olpr.mncourts.gov/" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Mississippi"><h3>Mississippi</h3><p>Mississippi Bar, Office of General Counsel</p><p class="ph"><a href="tel:+16019480568">(601) 948-0568</a></p><p>643 North State Street, Jackson, MS 39202</p><p><a href="https://msbar.org/for-the-public/lawyer-complaints-and-discipline/" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Missouri"><h3>Missouri</h3><p>Office of Chief Disciplinary Counsel, Supreme Court of Missouri</p><p class="ph"><a href="tel:+15736357400">(573) 635-7400</a></p><p>3327 American Avenue, Jefferson City, MO 65109-1016</p><p><a href="https://www.courts.mo.gov/page.jsp?id=217" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Montana"><h3>Montana</h3><p>Office of Disciplinary Counsel for the State of Montana</p><p class="ph"><a href="tel:+14064421648">(406) 442-1648</a></p><p>P.O. Box 1099, Helena, MT 59624-1099</p><p><a href="https://montanaodc.org/" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Nebraska"><h3>Nebraska</h3><p>Counsel for Discipline, Nebraska Supreme Court</p><p class="ph"><a href="tel:+14024711040">(402) 471-1040</a></p><p>5001 Central Park Drive, Suite 300, Lincoln, NE 68504</p><p><a href="https://supremecourt.nebraska.gov/administration/attorneys/counsel-discipline" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Nevada"><h3>Nevada</h3><p>State Bar of Nevada, Office of Bar Counsel</p><p class="ph"><a href="tel:+17023822200">(702) 382-2200</a></p><p>3100 W. Charleston Blvd., Suite 100, Las Vegas, NV 89102</p><p><a href="https://nvbar.org/for-lawyers/ethics-discipline/ethics-faqs/" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="New Hampshire"><h3>New Hampshire</h3><p>Attorney Discipline Office, New Hampshire Supreme Court</p><p class="ph"><a href="tel:+16032245828">(603) 224-5828</a></p><p>4 Chenell Drive, Suite 102, Concord, NH 03301</p><p><a href="https://nhattyreg.org/" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="New Jersey"><h3>New Jersey</h3><p>Office of Attorney Ethics, Supreme Court of New Jersey</p><p class="ph"><a href="tel:+16094037800">609-403-7800</a></p><p>P.O. Box 963, Trenton, NJ 08625-0963</p><p><a href="https://www.njcourts.gov/attorneys/attorney-ethics-and-discipline/file-ethics-grievance?language_content_entity=en" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="New Mexico"><h3>New Mexico</h3><p>Disciplinary Board of the Supreme Court of New Mexico</p><p class="ph"><a href="tel:+15058425781">(505) 842-5781</a></p><p>2440 Louisiana Blvd. NE, Suite 280, Albuquerque, NM 87110</p><p><a href="https://www.nmdisboard.org/" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="New York"><h3>New York</h3><p>Attorney Grievance Committee of the First Judicial Department (New York has separate grievance committees per Appellate Division department/district — file with the committee for the county where the lawyer practices)</p><p class="ph"><a href="tel:+12124010800">(212) 401-0800</a></p><p>180 Maiden Lane, 17th Floor, New York, NY 10038</p><p><a href="https://www.nycourts.gov/attorney-grievance-committees/complaints-about-attorneys" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="North Carolina"><h3>North Carolina</h3><p>North Carolina State Bar, Office of Counsel (Grievance Committee)</p><p class="ph"><a href="tel:+19198284620">(919) 828-4620</a></p><p>P.O. Box 25908, Raleigh, NC 27611-5908</p><p><a href="https://www.ncbar.gov/lawyer-discipline/" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="North Dakota"><h3>North Dakota</h3><p>Disciplinary Board of the Supreme Court of North Dakota, Office of Disciplinary Counsel</p><p class="ph"><a href="tel:+17013283925">(701) 328-3925</a></p><p>125 Slate Drive, Suite 2, P.O. Box 2297, Bismarck, ND 58502-2297</p><p><a href="https://www.ndcourts.gov/supreme-court/committees/disciplinary-board" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Ohio"><h3>Ohio</h3><p>Office of Disciplinary Counsel, Supreme Court of Ohio</p><p class="ph"><a href="tel:+16143879700">(614) 387-9700</a></p><p>65 East State Street, Suite 1510, Columbus, OH 43215</p><p><a href="https://www.odc.ohio.gov/" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Oklahoma"><h3>Oklahoma</h3><p>Oklahoma Bar Association, Office of the General Counsel</p><p class="ph"><a href="tel:+14054167007">(405) 416-7007</a></p><p>P.O. Box 53036, Oklahoma City, OK 73152-3036</p><p><a href="https://www.okbar.org/gc/complaint/" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Oregon"><h3>Oregon</h3><p>Oregon State Bar, Client Assistance Office</p><p class="ph"><a href="tel:+15036200222">(503) 620-0222</a></p><p>P.O. Box 231935, Tigard, OR 97281-1935</p><p><a href="https://www.osbar.org/discipline/index.html" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Pennsylvania"><h3>Pennsylvania</h3><p>Disciplinary Board of the Supreme Court of Pennsylvania, Office of Disciplinary Counsel (Office of Chief Disciplinary Counsel)</p><p class="ph"><a href="tel:+17177830990">717-783-0990</a></p><p>Pennsylvania Judicial Center, 601 Commonwealth Avenue, Suite 2700, P.O. Box 62485, Harrisburg, PA 17106-2485</p><p><a href="https://www.padisciplinaryboard.org/page/33#18" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Rhode Island"><h3>Rhode Island</h3><p>Office of the Disciplinary Counsel, Rhode Island Supreme Court (Disciplinary Board of the Supreme Court)</p><p class="ph"><a href="tel:+14018235710">(401) 823-5710</a></p><p>Licht Judicial Complex, First Floor, Suite 1083, 250 Benefit Street, Providence, RI 02903</p><p><a href="https://www.courts.ri.gov/programs-services/Pages/ADA Court and Location Contact List.aspx" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="South Carolina"><h3>South Carolina</h3><p>Office of Disciplinary Counsel, South Carolina Supreme Court (Commission on Lawyer Conduct)</p><p class="ph"><a href="tel:+18037342038">(803) 734-2038</a></p><p>P.O. Box 12159, Columbia, SC 29211</p><p><a href="https://www.sccourts.org/about/lawyer-judicial-discipline/office-of-disciplinary-counsel/" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="South Dakota"><h3>South Dakota</h3><p>Disciplinary Board, State Bar of South Dakota</p><p class="ph"><a href="tel:+16052247554">(605) 224-7554</a></p><p>222 E. Capitol, Pierre, SD 57501</p><p><a href="https://findalawyerinsd.com/pages/areas-discipline" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Tennessee"><h3>Tennessee</h3><p>Board of Professional Responsibility of the Supreme Court of Tennessee</p><p class="ph"><a href="tel:+16153617500">(615) 361-7500</a></p><p>10 Cadillac Drive, Suite 220, Brentwood, TN 37027</p><p><a href="https://www.tbpr.org/" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Texas"><h3>Texas</h3><p>State Bar of Texas, Office of Chief Disciplinary Counsel</p><p class="ph"><a href="tel:+18009321900">1-800-932-1900</a></p><p>P.O. Box 13287, Austin, TX 78711</p><p><a href="https://www.texasbar.com/AM/Template.cfm?Section=Grievance_and_Ethics_Information1&amp;Template=/CM/ContentDisplay.cfm&amp;ContentID=46687" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Utah"><h3>Utah</h3><p>Utah State Bar, Office of Professional Conduct</p><p class="ph"><a href="tel:+18015319110">(801) 531-9110</a></p><p>645 South 200 East, Salt Lake City, UT 84111</p><p><a href="https://www.utahbar.org/accesstojustice/request-assistance/" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Vermont"><h3>Vermont</h3><p>Professional Responsibility Program (Professional Responsibility Board), Vermont Supreme Court</p><p class="ph"><a href="tel:+18028593000">(802) 859-3000</a></p><p>32 Cherry Street, Suite 213, Burlington, VT 05401</p><p><a href="https://www.vtcourts.gov/sites/default/files/documents/Brochure%20-%204.1.21%20Revision.pdf" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Virginia"><h3>Virginia</h3><p>Virginia State Bar, Office of Bar Counsel (Intake Office)</p><p class="ph"><a href="tel:+18047750570">(804) 775-0570</a></p><p>1111 East Main Street, Suite 700, Richmond, VA 23219-0026</p><p><a href="https://www.vsb.org/site/regulation/inquiry" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Washington"><h3>Washington</h3><p>Washington State Bar Association, Office of Disciplinary Counsel</p><p class="ph"><a href="tel:+12067278207">(206) 727-8207</a></p><p>1325 4th Avenue, Suite 600, Seattle, WA 98101-2539</p><p><a href="https://www.wsba.org/Licensing-and-Lawyer-Conduct/Discipline/File-a-Complaint-Against-a-Lawyer" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="West Virginia"><h3>West Virginia</h3><p>Office of Disciplinary Counsel (Lawyer Disciplinary Board), Supreme Court of Appeals of West Virginia</p><p class="ph"><a href="tel:+13045587999">(304) 558-7999</a></p><p>City Center East, 4700 MacCorkle Avenue SE, Suite 1200C, Charleston, WV 25304</p><p><a href="http://wvodc.org/" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Wisconsin"><h3>Wisconsin</h3><p>Office of Lawyer Regulation, Supreme Court of Wisconsin</p><p class="ph"><a href="tel:+16082677274">(608) 267-7274</a></p><p>P.O. Box 1648, Madison, WI 53701-1648</p><p><a href="http://www.wicourts.gov/services/public/lawyerreg/file.htm" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+<button class="statecard" data-state="Wyoming"><h3>Wyoming</h3><p>Office of Bar Counsel, Board of Professional Responsibility, Wyoming State Bar</p><p class="ph"><a href="tel:+13076329061">(307) 632-9061</a></p><p>P.O. Box 109, Cheyenne, WY 82003</p><p><a href="https://judicialconduct.wyo.gov/how-to-file-a-complaint" target="_blank" rel="noopener">Official page &rarr;</a></p></button>
+</div>
+</div>
+
+<footer>The Citizen Movement &mdash; Educate &star; Unite &star; Empower. Disciplinary contacts are public information from each state&rsquo;s official bar, court, or disciplinary counsel. This page is a directory, not legal advice.</footer>
+
+<script>
+var DATA = [{"address": "P.O. Box 671, Montgomery, AL 36101-0671", "authority": "Disciplinary Commission, Alabama State Bar (Office of General Counsel, Disciplinary Division)", "phone": "334-269-1515", "source_url": "https://www.alabar.org/office-of-general-counsel/disciplinary-division/", "state": "Alabama"}, {"address": "840 K Street, Suite 100, Anchorage, AK 99501-3353", "authority": "Alaska Bar Association, Bar Counsel", "phone": "907-272-7469", "source_url": "https://alaskabar.org/for-our-community/complaints-against-attorneys/", "state": "Alaska"}, {"address": "4201 N. 24th Street, Suite 100, Phoenix, AZ 85016-6266", "authority": "State Bar of Arizona, Lawyer Regulation Office (Intake Department)", "phone": "602-340-7280", "source_url": "https://www.azbar.org/for-the-public/concerns-about-your-legal-professional/submitting-a-charge/", "state": "Arizona"}, {"address": "Multi-Agency Complex, One Capitol Mall, Ste. 3D-101, Little Rock, AR 72201", "authority": "Supreme Court of Arkansas, Office of Professional Conduct (Committee on Professional Conduct)", "phone": "(501) 376-0313", "source_url": "http://arcourts.gov/sites/default/files/formatted-files/1.6_GRIEVANCE_FORM_SC_AR_(Revised%2008-06-25)_(FILLABLE).pdf", "state": "Arkansas"}, {"address": "845 South Figueroa Street, Los Angeles, CA 90017", "authority": "State Bar of California, Office of Chief Trial Counsel Intake", "phone": "800-843-9053", "source_url": "https://apps.calbar.ca.gov/complaint/", "state": "California"}, {"address": "1300 Broadway, Suite 500, Denver, CO 80203", "authority": "Colorado Supreme Court, Office of Attorney Regulation Counsel", "phone": "(303) 457-5800", "source_url": "https://www.coloradolegalregulation.com/complaints/file_complaintagainstatty/", "state": "Colorado"}, {"address": "999 Asylum Avenue, Fifth Floor, Hartford, CT 06105", "authority": "Statewide Grievance Committee (Statewide Bar Counsel)", "phone": "(860) 296-3848", "source_url": "https://www.jud.ct.gov/SGC/faq_discipline.htm", "state": "Connecticut"}, {"address": "Leonard L. Williams Justice Center, 500 N. King Street, Wilmington, DE 19801", "authority": "Office of Disciplinary Counsel, Supreme Court of Delaware", "phone": "(302) 651-3931", "source_url": "https://courts.delaware.gov/odc/complaint.aspx", "state": "Delaware"}, {"address": "515 5th Street NW, Building A, Suite 117, Washington, DC 20001", "authority": "Office of Disciplinary Counsel, District of Columbia Court of Appeals", "phone": "202-638-1501", "source_url": "https://www.dcbar.org//Attorney-Discipline/Office-of-Disciplinary-Counsel/Filing-a-Complaint/How-To-File-a-Complaint", "state": "District of Columbia"}, {"address": "651 E. Jefferson Street, Tallahassee, FL 32399-2300", "authority": "The Florida Bar, Attorney Consumer Assistance Program (ACAP)", "phone": "1-866-352-0707", "source_url": "https://www.floridabar.org/about/contact/", "state": "Florida"}, {"address": "104 Marietta Street NW, Suite 100, Atlanta, GA 30303", "authority": "State Bar of Georgia, Office of General Counsel", "phone": "(404) 527-8720", "source_url": "https://www.gabar.org/forthepublic/fileacomplaint.cfm", "state": "Georgia"}, {"address": "201 Merchant Street, Suite 1600, Honolulu, HI 96813", "authority": "Disciplinary Board of the Hawai'i Supreme Court, Office of Disciplinary Counsel", "phone": "(808) 521-4591", "source_url": "https://dbhawaii.org/how-to-file-a-complaint-with-the-odc/", "state": "Hawaii"}, {"address": "P.O. Box 895, Boise, ID 83701", "authority": "Idaho State Bar, Office of Bar Counsel", "phone": "(208) 334-4500", "source_url": "https://isb.idaho.gov/frequently-asked-questions/", "state": "Idaho"}, {"address": "130 E. Randolph Dr., Suite 1500, Chicago, IL 60601-6219", "authority": "Attorney Registration and Disciplinary Commission of the Supreme Court of Illinois (ARDC)", "phone": "(312) 565-2600", "source_url": "https://iardc.org/Home/FileComplaint", "state": "Illinois"}, {"address": "251 N. Illinois Street, Suite 500, Indianapolis, IN 46204", "authority": "Indiana Supreme Court Disciplinary Commission", "phone": "(317) 232-1807", "source_url": "https://www.in.gov/courts/ojar/di-process/complaint", "state": "Indiana"}, {"address": "Iowa Judicial Branch Building, 1111 East Court Avenue, Des Moines, IA 50319", "authority": "Iowa Supreme Court Attorney Disciplinary Board", "phone": "(515) 348-4680", "source_url": "https://www.iowacourts.gov/browse/files/4a37a1b5f6b340cbadaebb6f04c0cf96/download", "state": "Iowa"}, {"address": "Kansas Judicial Center, 301 SW 10th Ave, Topeka, KS 66612", "authority": "Office of the Disciplinary Administrator, Kansas Supreme Court", "phone": "785-435-8200", "source_url": "https://kscourts.gov/Attorneys/Office-of-Disciplinary-Administration/File-a-Complaint", "state": "Kansas"}, {"address": "514 West Main Street, Frankfort, KY 40601-1812", "authority": "Kentucky Bar Association, Office of Bar Counsel", "phone": "(502) 564-3795", "source_url": "https://kybar.org/Portals/0/OBC/OBC%20Complaint%20Form%20091426.pdf", "state": "Kentucky"}, {"address": "2800 Veterans Memorial Blvd, Suite 310, Metairie, LA 70002", "authority": "Louisiana Attorney Disciplinary Board", "phone": "(504) 834-1488", "source_url": "http://www.ladb.org/", "state": "Louisiana"}, {"address": "P.O. Box 527, Augusta, ME 04332-0527", "authority": "Maine Board of Overseers of the Bar, Bar Counsel (Central Intake Office)", "phone": "(207) 623-1121", "source_url": "https://www.mebaroverseers.org/docs/Grievance%20Complaint%20Form.pdf", "state": "Maine"}, {"address": "200 Harry S. Truman Parkway, Suite 300, Annapolis, MD 21401", "authority": "Attorney Grievance Commission of Maryland, Office of Bar Counsel", "phone": "(410) 514-7051", "source_url": "https://www.mdcourts.gov/attygrievance/faqs", "state": "Maryland"}, {"address": "1 Beacon Street, Boston, MA 02108", "authority": "Board of Bar Overseers, Office of the Bar Counsel (Attorney and Consumer Assistance Program)", "phone": "(617) 728-8750", "source_url": "https://www.massbbo.org/s/complaints?shem=rimspwouoe%2C", "state": "Massachusetts"}, {"address": "755 W. Big Beaver Rd., Suite 2100, Troy, MI 48084", "authority": "Michigan Attorney Grievance Commission", "phone": "(313) 961-6585", "source_url": "https://www.michbar.org/professional/disciplinary", "state": "Michigan"}, {"address": "Minnesota Judicial Center, Suite 105, 25 Rev. Dr. Martin Luther King Jr. Blvd., St. Paul, MN 55155", "authority": "Office of Lawyers Professional Responsibility (Minnesota Supreme Court)", "phone": "(651) 296-3952", "source_url": "https://olpr.mncourts.gov/", "state": "Minnesota"}, {"address": "643 North State Street, Jackson, MS 39202", "authority": "Mississippi Bar, Office of General Counsel", "phone": "(601) 948-0568", "source_url": "https://msbar.org/for-the-public/lawyer-complaints-and-discipline/", "state": "Mississippi"}, {"address": "3327 American Avenue, Jefferson City, MO 65109-1016", "authority": "Office of Chief Disciplinary Counsel, Supreme Court of Missouri", "phone": "(573) 635-7400", "source_url": "https://www.courts.mo.gov/page.jsp?id=217", "state": "Missouri"}, {"address": "P.O. Box 1099, Helena, MT 59624-1099", "authority": "Office of Disciplinary Counsel for the State of Montana", "phone": "(406) 442-1648", "source_url": "https://montanaodc.org/", "state": "Montana"}, {"address": "5001 Central Park Drive, Suite 300, Lincoln, NE 68504", "authority": "Counsel for Discipline, Nebraska Supreme Court", "phone": "(402) 471-1040", "source_url": "https://supremecourt.nebraska.gov/administration/attorneys/counsel-discipline", "state": "Nebraska"}, {"address": "3100 W. Charleston Blvd., Suite 100, Las Vegas, NV 89102", "authority": "State Bar of Nevada, Office of Bar Counsel", "phone": "(702) 382-2200", "source_url": "https://nvbar.org/for-lawyers/ethics-discipline/ethics-faqs/", "state": "Nevada"}, {"address": "4 Chenell Drive, Suite 102, Concord, NH 03301", "authority": "Attorney Discipline Office, New Hampshire Supreme Court", "phone": "(603) 224-5828", "source_url": "https://nhattyreg.org/", "state": "New Hampshire"}, {"address": "P.O. Box 963, Trenton, NJ 08625-0963", "authority": "Office of Attorney Ethics, Supreme Court of New Jersey", "phone": "609-403-7800", "source_url": "https://www.njcourts.gov/attorneys/attorney-ethics-and-discipline/file-ethics-grievance?language_content_entity=en", "state": "New Jersey"}, {"address": "2440 Louisiana Blvd. NE, Suite 280, Albuquerque, NM 87110", "authority": "Disciplinary Board of the Supreme Court of New Mexico", "phone": "(505) 842-5781", "source_url": "https://www.nmdisboard.org/", "state": "New Mexico"}, {"address": "180 Maiden Lane, 17th Floor, New York, NY 10038", "authority": "Attorney Grievance Committee of the First Judicial Department (New York has separate grievance committees per Appellate Division department/district — file with the committee for the county where the lawyer practices)", "phone": "(212) 401-0800", "source_url": "https://www.nycourts.gov/attorney-grievance-committees/complaints-about-attorneys", "state": "New York"}, {"address": "P.O. Box 25908, Raleigh, NC 27611-5908", "authority": "North Carolina State Bar, Office of Counsel (Grievance Committee)", "phone": "(919) 828-4620", "source_url": "https://www.ncbar.gov/lawyer-discipline/", "state": "North Carolina"}, {"address": "125 Slate Drive, Suite 2, P.O. Box 2297, Bismarck, ND 58502-2297", "authority": "Disciplinary Board of the Supreme Court of North Dakota, Office of Disciplinary Counsel", "phone": "(701) 328-3925", "source_url": "https://www.ndcourts.gov/supreme-court/committees/disciplinary-board", "state": "North Dakota"}, {"address": "65 East State Street, Suite 1510, Columbus, OH 43215", "authority": "Office of Disciplinary Counsel, Supreme Court of Ohio", "phone": "(614) 387-9700", "source_url": "https://www.odc.ohio.gov/", "state": "Ohio"}, {"address": "P.O. Box 53036, Oklahoma City, OK 73152-3036", "authority": "Oklahoma Bar Association, Office of the General Counsel", "phone": "(405) 416-7007", "source_url": "https://www.okbar.org/gc/complaint/", "state": "Oklahoma"}, {"address": "P.O. Box 231935, Tigard, OR 97281-1935", "authority": "Oregon State Bar, Client Assistance Office", "phone": "(503) 620-0222", "source_url": "https://www.osbar.org/discipline/index.html", "state": "Oregon"}, {"address": "Pennsylvania Judicial Center, 601 Commonwealth Avenue, Suite 2700, P.O. Box 62485, Harrisburg, PA 17106-2485", "authority": "Disciplinary Board of the Supreme Court of Pennsylvania, Office of Disciplinary Counsel (Office of Chief Disciplinary Counsel)", "phone": "717-783-0990", "source_url": "https://www.padisciplinaryboard.org/page/33#18", "state": "Pennsylvania"}, {"address": "Licht Judicial Complex, First Floor, Suite 1083, 250 Benefit Street, Providence, RI 02903", "authority": "Office of the Disciplinary Counsel, Rhode Island Supreme Court (Disciplinary Board of the Supreme Court)", "phone": "(401) 823-5710", "source_url": "https://www.courts.ri.gov/programs-services/Pages/ADA Court and Location Contact List.aspx", "state": "Rhode Island"}, {"address": "P.O. Box 12159, Columbia, SC 29211", "authority": "Office of Disciplinary Counsel, South Carolina Supreme Court (Commission on Lawyer Conduct)", "phone": "(803) 734-2038", "source_url": "https://www.sccourts.org/about/lawyer-judicial-discipline/office-of-disciplinary-counsel/", "state": "South Carolina"}, {"address": "222 E. Capitol, Pierre, SD 57501", "authority": "Disciplinary Board, State Bar of South Dakota", "phone": "(605) 224-7554", "source_url": "https://findalawyerinsd.com/pages/areas-discipline", "state": "South Dakota"}, {"address": "10 Cadillac Drive, Suite 220, Brentwood, TN 37027", "authority": "Board of Professional Responsibility of the Supreme Court of Tennessee", "phone": "(615) 361-7500", "source_url": "https://www.tbpr.org/", "state": "Tennessee"}, {"address": "P.O. Box 13287, Austin, TX 78711", "authority": "State Bar of Texas, Office of Chief Disciplinary Counsel", "phone": "1-800-932-1900", "source_url": "https://www.texasbar.com/AM/Template.cfm?Section=Grievance_and_Ethics_Information1&Template=/CM/ContentDisplay.cfm&ContentID=46687", "state": "Texas"}, {"address": "645 South 200 East, Salt Lake City, UT 84111", "authority": "Utah State Bar, Office of Professional Conduct", "phone": "(801) 531-9110", "source_url": "https://www.utahbar.org/accesstojustice/request-assistance/", "state": "Utah"}, {"address": "32 Cherry Street, Suite 213, Burlington, VT 05401", "authority": "Professional Responsibility Program (Professional Responsibility Board), Vermont Supreme Court", "phone": "(802) 859-3000", "source_url": "https://www.vtcourts.gov/sites/default/files/documents/Brochure%20-%204.1.21%20Revision.pdf", "state": "Vermont"}, {"address": "1111 East Main Street, Suite 700, Richmond, VA 23219-0026", "authority": "Virginia State Bar, Office of Bar Counsel (Intake Office)", "phone": "(804) 775-0570", "source_url": "https://www.vsb.org/site/regulation/inquiry", "state": "Virginia"}, {"address": "1325 4th Avenue, Suite 600, Seattle, WA 98101-2539", "authority": "Washington State Bar Association, Office of Disciplinary Counsel", "phone": "(206) 727-8207", "source_url": "https://www.wsba.org/Licensing-and-Lawyer-Conduct/Discipline/File-a-Complaint-Against-a-Lawyer", "state": "Washington"}, {"address": "City Center East, 4700 MacCorkle Avenue SE, Suite 1200C, Charleston, WV 25304", "authority": "Office of Disciplinary Counsel (Lawyer Disciplinary Board), Supreme Court of Appeals of West Virginia", "phone": "(304) 558-7999", "source_url": "http://wvodc.org/", "state": "West Virginia"}, {"address": "P.O. Box 1648, Madison, WI 53701-1648", "authority": "Office of Lawyer Regulation, Supreme Court of Wisconsin", "phone": "(608) 267-7274", "source_url": "http://www.wicourts.gov/services/public/lawyerreg/file.htm", "state": "Wisconsin"}, {"address": "P.O. Box 109, Cheyenne, WY 82003", "authority": "Office of Bar Counsel, Board of Professional Responsibility, Wyoming State Bar", "phone": "(307) 632-9061", "source_url": "https://judicialconduct.wyo.gov/how-to-file-a-complaint", "state": "Wyoming"}];
+var byState = {};
+DATA.forEach(function(d){ byState[d.state] = d; });
+function telOf(phone){
+  var digits = phone.replace(/\D/g, "");
+  if (digits.length === 10) digits = "1" + digits;
+  return digits ? "tel:+" + digits : "#";
+}
+function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function render(state){
+  var d = byState[state];
+  var el = document.getElementById("result");
+  if (!d) { el.innerHTML = "<p>No entry for that state yet.</p>"; return; }
+  el.innerHTML =
+    "<h2>" + esc(d.state) + "</h2>" +
+    "<p><strong>" + esc(d.authority) + "</strong></p>" +
+    "<p class=\"phone\">Disciplinary line: <a href=\"" + telOf(d.phone) + "\">" + esc(d.phone) + "</a></p>" +
+    "<p class=\"addr\">Mailing address:<br>" + esc(d.address) + "</p>" +
+    "<button class=\"copybtn\" id=\"copyBtn\">Copy mailing address</button> " +
+    "<a class=\"readmore\" href=\"" + esc(d.source_url) + "\" target=\"_blank\" rel=\"noopener\">Official page &rarr;</a>";
+  document.getElementById("copyBtn").addEventListener("click", function(){
+    var btn = this;
+    function done(){ btn.textContent = "Copied"; setTimeout(function(){ btn.textContent = "Copy mailing address"; }, 2000); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(d.authority + "\n" + d.address).then(done, function(){ fallback(); });
+    } else { fallback(); }
+    function fallback(){
+      var ta = document.createElement("textarea");
+      ta.value = d.authority + "\n" + d.address;
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); } catch(e) {}
+      document.body.removeChild(ta); done();
+    }
+  });
+}
+var sel = document.getElementById("stateSel");
+var q = document.getElementById("q");
+function filterSelect(){
+  var query = q.value.trim().toLowerCase();
+  var first = null;
+  Array.prototype.forEach.call(sel.options, function(opt){
+    var show = !query || opt.value.toLowerCase().indexOf(query) !== -1;
+    opt.style.display = show ? "" : "none";
+    if (show && !first) first = opt.value;
+  });
+  if (first && sel.value.toLowerCase().indexOf(query) === -1) { sel.value = first; render(first); }
+}
+q.addEventListener("input", function(){
+  filterSelect();
+  filterGrid(q.value);
+});
+sel.addEventListener("change", function(){ render(sel.value); });
+function filterGrid(query){
+  query = (query || "").trim().toLowerCase();
+  var cards = document.querySelectorAll("#grid .statecard");
+  cards.forEach(function(card){
+    var hay = card.textContent.toLowerCase();
+    card.style.display = (!query || hay.indexOf(query) !== -1) ? "" : "none";
+  });
+}
+document.getElementById("gridq").addEventListener("input", function(){ filterGrid(this.value); });
+document.querySelectorAll("#grid .statecard").forEach(function(card){
+  card.addEventListener("click", function(e){
+    if (e.target.tagName === "A") return;
+    var st = card.getAttribute("data-state");
+    sel.value = st;
+    render(st);
+    document.getElementById("result").scrollIntoView({behavior:"smooth"});
+  });
+});
+// California loads by default
+sel.value = "California";
+render("California");
+</script>
+</body>
+</html>
