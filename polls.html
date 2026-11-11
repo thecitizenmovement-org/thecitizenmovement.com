@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Citizen polls of The Citizen Movement — the people vote.">
+<meta name="description" content="Citizen polls of The Citizen Movement — members only. The people vote.">
 <title>Polls — Citizens Vote — The Citizen Movement</title>
 <style>
 body{margin:0;font-family:Georgia,serif;background:#e8ebee;color:#2c3a46}
@@ -14,16 +14,29 @@ body{margin:0;font-family:Georgia,serif;background:#e8ebee;color:#2c3a46}
 .card a{color:#2c3a46;font-weight:bold}
 h1{text-align:center;font-size:2rem;margin:28px 0 4px}
 .lede{max-width:760px;margin:0 auto 10px;text-align:center;color:#5b7183;padding:0 22px}
-h2{margin:0 0 6px}
+h2{margin:0 0 6px;color:#1e7fd6}
 .tag{color:#5b7183;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
 .card p{margin:0 0 16px;color:#5b7183}
+.card .criteria{margin:0 0 16px;padding-left:22px;color:#5b7183}
+.card .criteria li{margin-bottom:4px}
+.member-note{max-width:760px;margin:22px auto;background:#e6f2fb;padding:16px 22px;border-radius:8px;border:1px solid #1e7fd6;text-align:center}
+.member-note strong{color:#1e7fd6}
+.filters{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:22px auto;max-width:760px}
+.filters button{background:#fff;border:1px solid #5b7183;color:#2c3a46;padding:10px 20px;cursor:pointer;font:inherit;border-radius:6px;font-weight:700}
+.filters button.active{background:#1e7fd6;border-color:#1e7fd6;color:#fff}
 .opt{display:block;width:100%;text-align:left;background:#fff;border:1px solid #5b7183;color:#2c3a46;padding:12px 16px;margin-bottom:8px;cursor:pointer;font:inherit;border-radius:6px}
 .opt:hover{background:#e8ebee}
+.opt.selected{border-color:#1e7fd6;background:#e6f2fb}
 .opt.voted{border-color:#2c3a46;background:#e8ebee;font-weight:bold}
+.take{display:block;width:100%;background:#1e7fd6;color:#fff;border:1px solid #1e7fd6;padding:14px 16px;margin-top:12px;cursor:pointer;font:inherit;font-weight:700;border-radius:6px;font-size:1rem}
+.take:hover{background:#1668b5}
+.take:disabled{opacity:.45;cursor:not-allowed}
 .bar{height:8px;background:#e8ebee;border-radius:4px;margin-top:6px;overflow:hidden}
-.bar i{display:block;height:100%;background:#2c3a46}
+.bar i{display:block;height:100%;background:#1e7fd6}
 .res{display:flex;justify-content:space-between;font-size:.9rem;color:#5b7183;margin-top:4px}
 .total{font-size:.9rem;color:#5b7183;margin-top:10px}
+.readmore{display:inline-block;margin-top:14px;color:#1e7fd6;font-weight:700;text-decoration:none}
+.readmore:hover{text-decoration:underline}
 .note{max-width:760px;margin:22px auto;background:#fff;padding:22px;border-radius:8px;border-left:3px solid #2c3a46;font-size:.95rem}
 footer{max-width:760px;margin:22px auto 40px;text-align:center;color:#5b7183;font-size:.9rem;padding:0 22px}
 </style>
@@ -31,65 +44,136 @@ footer{max-width:760px;margin:22px auto 40px;text-align:center;color:#5b7183;fon
 <body>
 <nav class="tabs"><a href="index.html">Home</a><a href="board.html">Non-Compliance Board</a><a href="investigations.html">Investigations</a><a href="polls.html" class="active">Polls</a><a href="notice-of-intent.html">Notice of Intent</a><a href="read-this-first.html">Read This First</a><a href="contact.html">Contact Us</a><a href="legal-team.html">Legal Team</a><a href="foundry.html" class="foundry-link" hidden>Foundry</a><a href="https://thecitizenmovement.store">Store</a></nav>
 <h1>Polls — Citizens Vote</h1>
-<p class="lede">The citizens vote. These polls measure community sentiment — they are not official votes or elections. They are the people's voice, counted in the open. Your vote is stored on your own device.</p>
+<p class="lede">The citizens vote. These polls measure community sentiment — they are not official votes or elections. They are the people's voice, counted in the open.</p>
 
-<div class="card" data-poll="flock">
+<div class="member-note"><strong>Members only.</strong> Polls are for members — <a href="https://thecitizenmovement.online">sign in to vote</a>. One vote per poll per member. Pick an option, then hit <strong>Take the Poll</strong> — the numbers and the graph change the moment you vote.</div>
+
+<div class="filters" role="group" aria-label="Filter polls by county">
+<button class="active" data-filter="all">All counties</button>
+<button data-filter="shasta">Shasta</button>
+<button data-filter="tehama">Tehama</button>
+</div>
+
+<div class="card" data-poll="flock" data-county="shasta">
 <div class="tag">Investigation 2 — Shasta Flock ALPR</div>
 <h2>Should Flock cameras stay in Shasta County?</h2>
-<p>SCSO asked for public comment after the cameras were installed. Now the citizens answer.</p>
+<p>SCSO asked for public comment after the cameras were installed. Now the citizens answer. The claims below come from Flock Safety&rsquo;s own explainer and SCSO&rsquo;s statements — a press release, not an independent finding. Every one of them is a claim to be questioned:</p>
+<ul class="criteria">
+<li>No facial biometric analysis</li>
+<li>No traffic citations</li>
+<li>No tracking of individuals</li>
+<li>No database</li>
+<li>SCSO controls sharing</li>
+<li>Data deleted after 30 days</li>
+</ul>
 <button class="opt" data-v="Yes, keep them">Yes, keep them</button>
 <button class="opt" data-v="No, remove them">No, remove them</button>
 <button class="opt" data-v="Need more information">Need more information</button>
+<button class="take" disabled>Take the Poll</button>
 <div class="results"></div>
 <div class="total"></div>
+<a class="readmore" href="https://thecitizenmovement.org/flock-discussion.html">Read more &rarr;</a>
 </div>
 
-<div class="card" data-poll="roster">
+<div class="card" data-poll="trust" data-county="both">
+<div class="tag">Both counties — The Method of Operation</div>
+<h2>Do Shasta and Tehama departments expect trust from the people while giving nothing in return?</h2>
+<p>The pattern is consistent across both counties: trust is demanded, nothing is shown. Cases closed, reports never published, questions unanswered. In Tehama, the Ward case was declared solved by DNA after the suspect died — no trial, no courtroom, no public evidence. In Shasta, the same pattern.</p>
+<button class="opt" data-v="Yes, that is the pattern">Yes, that is the pattern</button>
+<button class="opt" data-v="No">No</button>
+<button class="opt" data-v="Need more proof">Need more proof</button>
+<button class="take" disabled>Take the Poll</button>
+<div class="results"></div>
+<div class="total"></div>
+<a class="readmore" href="investigations.html">Read more &rarr;</a>
+</div>
+
+<div class="card" data-poll="ward" data-county="tehama">
+<div class="tag">Investigation 13 — Tehama Rashell Ward Murder (1983)</div>
+<h2>Should the Ward murder questions be reopened?</h2>
+<p>Rashell Ward, 14, was murdered in 1983. DNA named Johnny Lee Coy in October 2023, and the case was cleared by exception because he died in 2019. But nobody has seen the evidence, nobody has seen any proof, and we&rsquo;re not satisfied. The open questions: what came back from Koenig&rsquo;s 1985 DOJ referral, whether Koenig was actually cleared, whether the rumor names Ward, the Lucas confession, and the babysitting claim.</p>
+<button class="opt" data-v="Yes, reopen the questions">Yes, reopen the questions</button>
+<button class="opt" data-v="No, the case is closed">No, the case is closed</button>
+<button class="opt" data-v="Need more information">Need more information</button>
+<button class="take" disabled>Take the Poll</button>
+<div class="results"></div>
+<div class="total"></div>
+<a class="readmore" href="investigations.html">Read more &rarr;</a>
+</div>
+
+<div class="card" data-poll="roster" data-county="both">
 <div class="tag">Investigation 1 — Tehama / Shasta Roster</div>
 <h2>Should the roster investigation keep publishing findings as they land?</h2>
 <p>The 2,724-person public payroll roster, the surname matches, and the accountability list — publish as findings land, or wait until the work is complete?</p>
 <button class="opt" data-v="Yes, publish as they land">Yes, publish as they land</button>
 <button class="opt" data-v="No, wait until complete">No, wait until complete</button>
 <button class="opt" data-v="Unsure">Unsure</button>
+<button class="take" disabled>Take the Poll</button>
 <div class="results"></div>
 <div class="total"></div>
+<a class="readmore" href="investigations.html">Read more &rarr;</a>
 </div>
 
-<div class="card" data-poll="zogg">
+<div class="card" data-poll="zogg" data-county="shasta">
 <div class="tag">Investigation 3 — Zogg Fire Money</div>
 <h2>Should the Zogg fire money spending be made public?</h2>
 <p>Relief money was raised for Zogg fire victims in 2020. Should there be a full public accounting of where it went?</p>
 <button class="opt" data-v="Yes, full public accounting">Yes, full public accounting</button>
 <button class="opt" data-v="No">No</button>
 <button class="opt" data-v="Unsure">Unsure</button>
+<button class="take" disabled>Take the Poll</button>
 <div class="results"></div>
 <div class="total"></div>
+<a class="readmore" href="investigations.html">Read more &rarr;</a>
 </div>
 
-<div class="card" data-poll="da">
-<div class="tag">Investigation 4 — DA Satisfaction Rating</div>
+<div class="card" data-poll="da" data-county="shasta">
+<div class="tag">Investigation 9 — DA Satisfaction Rating</div>
 <h2>How satisfied are you with the Shasta County District Attorney's office?</h2>
 <p>Stephanie Bridgett is the Shasta County District Attorney. This is the people's satisfaction rating of the DA's office — voted by the citizens.</p>
-<button class="opt" data-v="Very satisfied">Very satisfied</button>
-<button class="opt" data-v="Satisfied">Satisfied</button>
-<button class="opt" data-v="Neutral">Neutral</button>
-<button class="opt" data-v="Dissatisfied">Dissatisfied</button>
-<button class="opt" data-v="Very dissatisfied">Very dissatisfied</button>
+<button class="opt" data-v="Very satisfied">&#9733;&#9733;&#9733;&#9733;&#9733; Very satisfied</button>
+<button class="opt" data-v="Satisfied">&#9733;&#9733;&#9733;&#9733; Satisfied</button>
+<button class="opt" data-v="Neutral">&#9733;&#9733;&#9733; Neutral</button>
+<button class="opt" data-v="Dissatisfied">&#9733;&#9733; Dissatisfied</button>
+<button class="opt" data-v="Very dissatisfied">&#9733; Very dissatisfied</button>
+<button class="take" disabled>Take the Poll</button>
 <div class="results"></div>
 <div class="total"></div>
+<a class="readmore" href="investigations.html">Read more &rarr;</a>
 </div>
 
-<div class="note">These polls are community sentiment, not official results. Votes are counted in your browser and stored on your device — no account, no tracking, no personal data collected.</div>
+<div class="card" data-poll="coming" data-county="both">
+<div class="tag">Coming soon</div>
+<h2>More polls on the way</h2>
+<p>Being drafted now: the Sheriff Kain recall poll, the Stephanie Bridgett recall poll, and the Zogg fire money laundering poll. Each one gets its own card, its own Read More, and its own vote.</p>
+</div>
+
+<div class="note">These polls are community sentiment, not official results. Votes are counted in your browser and stored on your device for now — member sign-in and shared counts come next. No personal data collected.</div>
 
 <footer>The Citizen Movement &middot; The citizens vote.</footer>
 <script>
 (function(){
   function key(id){return 'ucm-poll-'+id;}
+  var filterBtns = Array.prototype.slice.call(document.querySelectorAll('.filters button'));
+  filterBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      filterBtns.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      var f = btn.getAttribute('data-filter');
+      document.querySelectorAll('[data-poll][data-county]').forEach(function(p){
+        var c = p.getAttribute('data-county');
+        p.style.display = (f === 'all' || c === f || c === 'both') ? '' : 'none';
+      });
+    });
+  });
   document.querySelectorAll('[data-poll]').forEach(function(poll){
     var id = poll.getAttribute('data-poll');
+    if(!poll.querySelector('.opt')) return;
     var opts = Array.prototype.slice.call(poll.querySelectorAll('.opt'));
+    var takeBtn = poll.querySelector('.take');
     var resultsEl = poll.querySelector('.results');
     var totalEl = poll.querySelector('.total');
+    var selected = null;
     function load(){
       try{ return JSON.parse(localStorage.getItem(key(id)) || '{}'); }catch(e){ return {}; }
     }
@@ -113,15 +197,22 @@ footer{max-width:760px;margin:22px auto 40px;text-align:center;color:#5b7183;fon
     }
     opts.forEach(function(btn){
       btn.addEventListener('click', function(){
-        var v = btn.getAttribute('data-v');
-        var mine = localStorage.getItem(key(id)+'-mine');
-        var d = load();
-        if(mine && d[mine]){ d[mine]--; if(d[mine]<=0) delete d[mine]; }
-        d[v] = (d[v]||0)+1;
-        localStorage.setItem(key(id)+'-mine', v);
-        save(d);
-        render();
+        opts.forEach(function(b){ b.classList.remove('selected'); });
+        btn.classList.add('selected');
+        selected = btn.getAttribute('data-v');
+        takeBtn.disabled = false;
       });
+    });
+    takeBtn.addEventListener('click', function(){
+      if(!selected) return;
+      var mine = localStorage.getItem(key(id)+'-mine');
+      var d = load();
+      if(mine && d[mine]){ d[mine]--; if(d[mine]<=0) delete d[mine]; }
+      d[selected] = (d[selected]||0)+1;
+      localStorage.setItem(key(id)+'-mine', selected);
+      save(d);
+      render();
+      takeBtn.textContent = 'Vote counted — change it any time';
     });
     render();
   });
