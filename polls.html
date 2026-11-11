@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Citizen polls of The Citizen Movement — the people vote.">
+<title>Polls — Citizens Vote — The Citizen Movement</title>
+<style>
+body{margin:0;font-family:Georgia,serif;background:#e8ebee;color:#2c3a46}
+.tabs{display:flex;gap:6px;justify-content:center;background:#2c3a46;padding:10px;flex-wrap:wrap}
+.tabs a{color:#e8ebee;text-decoration:none;padding:10px 18px;border:1px solid #5b7183;border-radius:6px}
+.tabs a.active{background:#e8ebee;color:#2c3a46;font-weight:bold}
+.card{max-width:760px;margin:22px auto;background:#fff;padding:22px;border-radius:8px}
+.card a{color:#2c3a46;font-weight:bold}
+h1{text-align:center;font-size:2rem;margin:28px 0 4px}
+.lede{max-width:760px;margin:0 auto 10px;text-align:center;color:#5b7183;padding:0 22px}
+h2{margin:0 0 6px}
+.tag{color:#5b7183;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.card p{margin:0 0 16px;color:#5b7183}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:1px solid #5b7183;color:#2c3a46;padding:12px 16px;margin-bottom:8px;cursor:pointer;font:inherit;border-radius:6px}
+.opt:hover{background:#e8ebee}
+.opt.voted{border-color:#2c3a46;background:#e8ebee;font-weight:bold}
+.bar{height:8px;background:#e8ebee;border-radius:4px;margin-top:6px;overflow:hidden}
+.bar i{display:block;height:100%;background:#2c3a46}
+.res{display:flex;justify-content:space-between;font-size:.9rem;color:#5b7183;margin-top:4px}
+.total{font-size:.9rem;color:#5b7183;margin-top:10px}
+.note{max-width:760px;margin:22px auto;background:#fff;padding:22px;border-radius:8px;border-left:3px solid #2c3a46;font-size:.95rem}
+footer{max-width:760px;margin:22px auto 40px;text-align:center;color:#5b7183;font-size:.9rem;padding:0 22px}
+</style>
+</head>
+<body>
+<nav class="tabs"><a href="index.html">Home</a><a href="board.html">Non-Compliance Board</a><a href="investigations.html">Investigations</a><a href="polls.html" class="active">Polls</a><a href="notice-of-intent.html">Notice of Intent</a><a href="read-this-first.html">Read This First</a><a href="contact.html">Contact Us</a><a href="legal-team.html">Legal Team</a><a href="foundry.html" class="foundry-link" hidden>Foundry</a><a href="https://thecitizenmovement.store">Store</a></nav>
+<h1>Polls — Citizens Vote</h1>
+<p class="lede">The citizens vote. These polls measure community sentiment — they are not official votes or elections. They are the people's voice, counted in the open. Your vote is stored on your own device.</p>
+
+<div class="card" data-poll="flock">
+<div class="tag">Investigation 2 — Shasta Flock ALPR</div>
+<h2>Should Flock cameras stay in Shasta County?</h2>
+<p>SCSO asked for public comment after the cameras were installed. Now the citizens answer.</p>
+<button class="opt" data-v="Yes, keep them">Yes, keep them</button>
+<button class="opt" data-v="No, remove them">No, remove them</button>
+<button class="opt" data-v="Need more information">Need more information</button>
+<div class="results"></div>
+<div class="total"></div>
+</div>
+
+<div class="card" data-poll="roster">
+<div class="tag">Investigation 1 — Tehama / Shasta Roster</div>
+<h2>Should the roster investigation keep publishing findings as they land?</h2>
+<p>The 2,724-person public payroll roster, the surname matches, and the accountability list — publish as findings land, or wait until the work is complete?</p>
+<button class="opt" data-v="Yes, publish as they land">Yes, publish as they land</button>
+<button class="opt" data-v="No, wait until complete">No, wait until complete</button>
+<button class="opt" data-v="Unsure">Unsure</button>
+<div class="results"></div>
+<div class="total"></div>
+</div>
+
+<div class="card" data-poll="zogg">
+<div class="tag">Investigation 3 — Zogg Fire Money</div>
+<h2>Should the Zogg fire money spending be made public?</h2>
+<p>Relief money was raised for Zogg fire victims in 2020. Should there be a full public accounting of where it went?</p>
+<button class="opt" data-v="Yes, full public accounting">Yes, full public accounting</button>
+<button class="opt" data-v="No">No</button>
+<button class="opt" data-v="Unsure">Unsure</button>
+<div class="results"></div>
+<div class="total"></div>
+</div>
+
+<div class="card" data-poll="da">
+<div class="tag">Investigation 4 — DA Satisfaction Rating</div>
+<h2>How satisfied are you with the Shasta County District Attorney's office?</h2>
+<p>Stephanie Bridgett is the Shasta County District Attorney. This is the people's satisfaction rating of the DA's office — voted by the citizens.</p>
+<button class="opt" data-v="Very satisfied">Very satisfied</button>
+<button class="opt" data-v="Satisfied">Satisfied</button>
+<button class="opt" data-v="Neutral">Neutral</button>
+<button class="opt" data-v="Dissatisfied">Dissatisfied</button>
+<button class="opt" data-v="Very dissatisfied">Very dissatisfied</button>
+<div class="results"></div>
+<div class="total"></div>
+</div>
+
+<div class="note">These polls are community sentiment, not official results. Votes are counted in your browser and stored on your device — no account, no tracking, no personal data collected.</div>
+
+<footer>The Citizen Movement &middot; The citizens vote.</footer>
+<script>
+(function(){
+  function key(id){return 'ucm-poll-'+id;}
+  document.querySelectorAll('[data-poll]').forEach(function(poll){
+    var id = poll.getAttribute('data-poll');
+    var opts = Array.prototype.slice.call(poll.querySelectorAll('.opt'));
+    var resultsEl = poll.querySelector('.results');
+    var totalEl = poll.querySelector('.total');
+    function load(){
+      try{ return JSON.parse(localStorage.getItem(key(id)) || '{}'); }catch(e){ return {}; }
+    }
+    function save(d){ try{ localStorage.setItem(key(id), JSON.stringify(d)); }catch(e){} }
+    function render(){
+      var d = load();
+      var total = 0;
+      Object.keys(d).forEach(function(k){ total += d[k]; });
+      resultsEl.innerHTML = '';
+      opts.forEach(function(btn){
+        var v = btn.getAttribute('data-v');
+        var n = d[v] || 0;
+        var pct = total ? Math.round(n/total*100) : 0;
+        var row = document.createElement('div');
+        row.innerHTML = '<div class="res"><span></span><span>'+n+' votes — '+pct+'%</span></div><div class="bar"><i style="width:'+pct+'%"></i></div>';
+        row.querySelector('.res span').textContent = v;
+        resultsEl.appendChild(row);
+        btn.classList.toggle('voted', localStorage.getItem(key(id)+'-mine') === v);
+      });
+      totalEl.textContent = total ? (total + (total===1?' vote':' votes') + ' counted on this device.') : 'No votes yet on this device — be the first.';
+    }
+    opts.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var v = btn.getAttribute('data-v');
+        var mine = localStorage.getItem(key(id)+'-mine');
+        var d = load();
+        if(mine && d[mine]){ d[mine]--; if(d[mine]<=0) delete d[mine]; }
+        d[v] = (d[v]||0)+1;
+        localStorage.setItem(key(id)+'-mine', v);
+        save(d);
+        render();
+      });
+    });
+    render();
+  });
+})();
+</script>
+</body>
+</html>
